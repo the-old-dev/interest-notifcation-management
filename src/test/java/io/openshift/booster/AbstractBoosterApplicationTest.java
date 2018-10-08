@@ -16,7 +16,7 @@
 package io.openshift.booster;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.StringStartsWith.*;
 
 import io.openshift.booster.service.Greeting;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public abstract class AbstractBoosterApplicationTest {
            .get(GREETING_PATH)
            .then()
            .statusCode(200)
-           .body("content", is(String.format(Greeting.FORMAT, "World")));
+           .body("content", startsWith(String.format(Greeting.FORMAT, "World")));
     }
 
     @Test
@@ -44,7 +44,7 @@ public abstract class AbstractBoosterApplicationTest {
            .get(GREETING_PATH)
            .then()
            .statusCode(200)
-           .body("content", is(String.format(Greeting.FORMAT, "John")));
+           .body("content", startsWith(String.format(Greeting.FORMAT, "John")));
     }
 
     protected abstract String baseURI();
