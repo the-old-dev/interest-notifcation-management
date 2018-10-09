@@ -53,8 +53,7 @@ public abstract class AbstractBoosterApplicationTest {
            .baseUri(baseURI())
            .get("api/dailydose")
            .then()
-           .statusCode(200)
-           .body("content", startsWith("First tag:=html"));
+           .statusCode(200);
     }
     
     protected abstract String baseURI();
