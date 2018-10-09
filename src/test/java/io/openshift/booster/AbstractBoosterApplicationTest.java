@@ -47,5 +47,15 @@ public abstract class AbstractBoosterApplicationTest {
            .body("content", startsWith(String.format(Greeting.FORMAT, "John")));
     }
 
+    @Test
+    public void testDailyDoseEndpoint() {
+        given()
+           .baseUri(baseURI())
+           .get("api/dailydose")
+           .then()
+           .statusCode(200)
+           .body("content", startsWith("First tag:=html"));
+    }
+    
     protected abstract String baseURI();
 }

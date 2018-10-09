@@ -11,6 +11,10 @@ import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.Cursor;
 import org.dizitart.no2.objects.ObjectRepository;
 
+import org.inm.changes.dailydose.Constants;
+import org.inm.changes.dailydose.DailyDoseOffersReader;
+import java.net.URL;
+
 @RestController
 public class GreetingEndpoint {
 
@@ -48,6 +52,19 @@ public class GreetingEndpoint {
     @RequestMapping("/api/greetings")
     public Cursor<Greeting> greetings() {
         return  repository.find();
+    }
+    
+    @RequestMapping("/api/dailydose")
+    public String dailyDose() throws Exception {
+        
+        // create instances
+        DailyDoseOffersReader reader = new DailyDoseOffersReader();
+        
+        // initialise instances
+        reader.setUrl(new URL(Constants.BASE_URL));
+        
+        // run & return
+        return "First tag:=" + reader.getActualDataAsXml().toString();
     }
     
     private void initialize() {

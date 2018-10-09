@@ -121,6 +121,12 @@
         <artifactId>nitrite</artifactId>
         <version>3.1.0</version>
     </dependency>
+    
+    <dependency>
+	   <groupId>net.sourceforge.htmlcleaner</groupId>
+	   <artifactId>htmlcleaner</artifactId>
+		<version>2.22</version>
+	</dependency>
 
     <!-- Testing -->
     <dependency>
