@@ -57,14 +57,23 @@ public class GreetingEndpoint {
     @RequestMapping("/api/dailydose")
     public String dailyDose() throws Exception {
         
-        // create instances
-        DailyDoseOffersReader reader = new DailyDoseOffersReader();
+        try {
         
-        // initialise instances
-        reader.setUrl(new URL(Constants.BASE_URL));
+            // create instances
+            DailyDoseOffersReader reader = new DailyDoseOffersReader();
         
-        // run & return
-        return "First tag:=" + reader.getActualDataAsXml().toString();
+            // initialise instances
+            reader.setUrl(new URL(Constants.BASE_URL));
+        
+            // run & return
+            return "First tag:=" + reader.getActualDataAsXml().toString();
+        
+        } catch (Exception e) {
+            
+            logger.error(e.toString());
+            return "Error:=" + e.toString();
+        
+        }  
     }
     
     private void initialize() {
