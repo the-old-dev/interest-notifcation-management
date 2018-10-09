@@ -29,6 +29,17 @@ public class GreetingEndpoint {
         template = "Hello, %s!";
         initialize();
     }
+    
+     @RequestMapping("/api/secret")
+    public String secret(@RequestParam(value="name", defaultValue="my-secret") String name) {
+        try {
+            return "env:="+System.getenv(name)+"; prop:="+System.getProperty(name, "not available");
+        } catch (Exception e) {
+            return "error:="+e.toString();
+        }
+
+    }
+
 
     @RequestMapping("/api/greeting")
     public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
