@@ -14,6 +14,9 @@ import org.dizitart.no2.objects.ObjectRepository;
 import org.inm.changes.dailydose.Constants;
 import org.inm.changes.dailydose.DailyDoseOffersReader;
 import java.net.URL;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Properties;
 
 @RestController
 public class GreetingEndpoint {
@@ -30,7 +33,7 @@ public class GreetingEndpoint {
         initialize();
     }
     
-     @RequestMapping("/api/secret")
+    @RequestMapping("/api/secret")
     public String secret(@RequestParam(value="name", defaultValue="my-secret") String name) {
         try {
             return "env:="+System.getenv(name)+"; prop:="+System.getProperty(name, "not available");
@@ -40,6 +43,27 @@ public class GreetingEndpoint {
 
     }
 
+    @RequestMapping("/api/envs")
+    public Map<String,String> envs() {
+        try {
+            return System.getenv();
+        } catch (Exception e) {
+            Map<String,String> map = new HashMap <String,String>();
+            map.put("error",e.toString());
+            return map;
+        }
+    }
+    
+    @RequestMapping("/api/props")
+    public Properties props() {
+        try {
+            return System.getProperties();
+        } catch (Exception e) {
+            Properties map = new Properties();
+            map.put("error",e.toString());
+            return map;
+        }
+    }
 
     @RequestMapping("/api/greeting")
     public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
