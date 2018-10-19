@@ -1,8 +1,8 @@
-package org.inm.changes.dailydose;
+package org.inm.change.dailydose;
 
 import org.htmlcleaner.CleanerProperties;
 
-import org.inm.core.WebSiteReader;
+import org.inm.change.WebSiteReader;
 
 public class DailyDoseOffersReader extends WebSiteReader {
 	

@@ -37,6 +37,8 @@
   <properties>
     <spring-boot-bom.version>1.5.15.Final-redhat-00002</spring-boot-bom.version>
     <spring-boot.version>1.5.15.RELEASE</spring-boot.version>
+    <spring-framework.version>4.3.18.RELEASE</spring-framework.version>
+    <spring-security.version>4.2.7.RELEASE</spring-security.version>
     <arquillian.version>1.4.0.Final</arquillian.version>
     <awaitility.version>3.1.0</awaitility.version>
     <rest-assured.version>3.1.0</rest-assured.version>
@@ -114,7 +116,21 @@
       <artifactId>spring-boot-devtools</artifactId>
       <optional>true</optional>
     </dependency>
+    
+    <!-- Authentication -->
+      <dependency>
+    	<groupId>org.springframework.security</groupId>
+    	<artifactId>spring-security-web</artifactId>
+    	<version>${spring-security.version}</version>
+      </dependency>
 
+
+      <dependency>
+    	<groupId>org.springframework.security</groupId>
+    	<artifactId>spring-security-config</artifactId>
+    	<version>${spring-security.version}</version>
+      </dependency>
+      
     <!-- Custom -->
     <dependency>
         <groupId>org.dizitart</groupId>
@@ -145,6 +161,13 @@
           <artifactId>undertow-core</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-test</artifactId>
+        <version>${spring-security.version}</version>
+        <scope>test</scope>
     </dependency>
 
     <dependency>
