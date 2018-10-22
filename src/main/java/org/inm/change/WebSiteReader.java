@@ -1,25 +1,14 @@
-package org.inm.core;
+package org.inm.change;
 
 import java.io.IOException;
-import java.net.URL;
 
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 
-public class WebSiteReader {
+public class WebSiteReader extends AbstractReader {
     
-    private URL url;
-
-	public URL getUrl() {
-		return url;
-	}
-
-	public void setUrl(URL url) {
-		this.url = url;
-	}
-	
-		/**
+	/**
 	 * Get Data from the internet and clean into valid xml.
 	 * 
 	 * @see de.im.changes.AbstractReader#getActualDataAsXml()

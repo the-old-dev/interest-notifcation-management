@@ -1,0 +1,21 @@
+/* 
+	https://css-tricks.com/snippets/css/a-guide-to-flexbox/ 
+*/
+
+@CHARSET "ISO-8859-1";
+
+.container {
+  display: flex; /* or inline-flex */
+  margin: 20px;
+}
+
+.item {
+  background-color: lightgray;
+  order: 1; /* default is 0 */
+  margin: 20px;
+  padding: 20px;
+}
+
+.img {
+  margin-bottom: 20px;
+}
