@@ -66,4 +66,9 @@ public abstract class AbstractStore<T extends Serializable> {
 	public Iterable<T> findAll() {
 		return this.search.findAll();
 	}
+	
+	public void register(AbstractChangeListener<T> listener) {
+		listener.setMapper(this.nitrite.getContext().getNitriteMapper());
+		//TODO continue here ...
+	}
 }
