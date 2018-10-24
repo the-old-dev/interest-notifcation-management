@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.dizitart.no2.objects.Id;
-import org.inm.interests.Interest;
+import org.inm.interest.Interest;
 import org.inm.subscription.Subscription;
 
 public class Notification implements Serializable {
@@ -12,18 +12,18 @@ public class Notification implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private long timestamp;
+	private Integer id;
 
 	private String subscriberEmail;
 	private Subscription subscription;
 	private List<Interest> interests;
 
-	public long getTimestamp() {
-		return timestamp;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setTimestamp(long timestamp) {
-		this.timestamp = timestamp;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getSubscriberEmail() {
@@ -48,6 +48,25 @@ public class Notification implements Serializable {
 
 	public void setInterests(List<Interest> interests) {
 		this.interests = interests;
+	}
+
+	void generateId() {
+		setId(createId());
+	}
+
+	int createId() {
+		String aSubscriberEmail = subscriberEmail;
+		Subscription aSubscription = subscription;
+		return createID(aSubscriberEmail, aSubscription);
+	}
+
+	public static int createID(String aSubscriberEmail, Subscription aSubscription) {
+		String idBase = aSubscriberEmail + aSubscription.getName() + aSubscription.getWebsiteUrl().toString()
+				+ aSubscription.getSubscribableUrl();
+		for (String rule : aSubscription.getRules()) {
+			idBase = idBase + rule;
+		}
+		return idBase.hashCode();
 	}
 
 }

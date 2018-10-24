@@ -1,0 +1,25 @@
+{
+	"id": 12345676,
+	"subscriberEmail": "www@example.org",
+	"subscription": {
+		"name": "Cheap Stuff",
+		"websiteUrl": "http://www.example.org",
+		"subscribableUrl": "http://www.example.org/abc",
+		"rules": [
+			"details.price < 100"
+		]
+	},
+	"interests": [
+		{
+			"url": "http://www.example.org/abc/001",
+			"subscribable": "http://www.example.org/abc",
+			"category": "Category A",
+			"subCategory": "Subcategory B",
+			"lastUpdated": 129837,
+			"title": "An Offer Updated",
+			"details": {
+				"price": 199
+			}
+		}
+	]
+}

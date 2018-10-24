@@ -1,4 +1,4 @@
-package org.inm.interests;
+package org.inm.interest;
 
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -12,18 +12,30 @@ public class Interest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String category;
-
-	private String subCategory;
-
 	@Id
 	private String url;
+
+	private URL subscribable;
+	private String category;
+	private String subCategory;
 	private String title;
 	private long lastUpdated;
 	private HashMap<String, Object> details;
 
 	public Interest() {
 		this.details = new HashMap<>();
+	}
+
+	public URL getSubscribable() {
+		return subscribable;
+	}
+
+	public void setSubscribable(URL subscribable) {
+		this.subscribable = subscribable;
+	}
+
+	public void setDetails(HashMap<String, Object> details) {
+		this.details = details;
 	}
 
 	public String getSubCategory() {

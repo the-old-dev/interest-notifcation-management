@@ -7,9 +7,18 @@ public class Subscription implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private String name;
 	private String websiteUrl;
 	private URL subscribableUrl;
-	private String rule;
+	private String[] rules;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getWebsiteUrl() {
 		return websiteUrl;
@@ -27,12 +36,12 @@ public class Subscription implements Serializable {
 		this.subscribableUrl = subscribableUrl;
 	}
 
-	public String getRule() {
-		return rule;
+	public String[] getRules() {
+		return rules;
 	}
 
-	public void setRule(String rule) {
-		this.rule = rule;
+	public void setRule(String[] rules) {
+		this.rules = rules;
 	}
 
 }

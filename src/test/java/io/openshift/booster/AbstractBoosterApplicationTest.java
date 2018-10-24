@@ -16,18 +16,14 @@
 package io.openshift.booster;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.core.StringStartsWith.*;
+import static org.hamcrest.core.StringStartsWith.startsWith;
 
 import io.openshift.booster.service.Greeting;
-import org.junit.Test;
 
 public abstract class AbstractBoosterApplicationTest {
 
     private static final String GREETING_PATH = "api/greeting";
     
-    @Test
-    public void testDummy() {}
-
     // @Test
     public void testGreetingEndpoint() {
         given()

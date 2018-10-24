@@ -1,10 +1,10 @@
-package org.inm.interests;
+package org.inm.interest;
 
 import org.inm.store.AbstractStore;
 
-public class InterestsStore extends AbstractStore<Interest> {
+public class InterestStore extends AbstractStore<Interest> {
 
-	public InterestsStore(boolean inMemory) {
+	public InterestStore(boolean inMemory) {
 		super(inMemory);
 	}
 

@@ -1,0 +1,9 @@
+{  
+	"url" : "http://www.example.org",
+	"subscribables" : [
+		{
+			"url" : "http://www.example.org/abc",
+			"name" : "Things"
+		}
+	]
+}

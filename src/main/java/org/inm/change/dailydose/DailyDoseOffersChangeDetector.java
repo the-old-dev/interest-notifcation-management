@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.inm.change.AbstractChangeDetector;
 import org.inm.change.ChunkedIterator;
 import org.inm.change.ChunkedIterator.ChunkProvider;
-import org.inm.interests.Interest;
+import org.inm.interest.Interest;
 
 
 public class DailyDoseOffersChangeDetector extends AbstractChangeDetector

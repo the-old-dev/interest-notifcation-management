@@ -1,0 +1,11 @@
+{
+	"url": "http://www.example.org/abc/001",
+	"subscribable" : "http://www.example.org/abc",
+	"category": "Category A",
+	"subCategory": "Subcategory B",
+	"lastUpdated": 1298379,
+	"title": "An Offer Update",
+	"details": {
+		"price": 100
+	}
+}

@@ -8,16 +8,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.htmlcleaner.TagNode;
-
-import org.inm.interests.Interest;
-import org.inm.interests.InterestsStore;
+import org.inm.interest.Interest;
+import org.inm.interest.InterestStore;
 import org.inm.util.NullCheck;
 
 public abstract class AbstractChangeDetector implements Runnable {
 
 	protected AbstractReader reader = null;
 	protected AbstractTransformator transformator = null;
-	protected InterestsStore store = null;
+	protected InterestStore store = null;
 	protected URL url = null;
 
 	protected Logger LOGGER = null;
@@ -36,7 +35,7 @@ public abstract class AbstractChangeDetector implements Runnable {
 		this.transformator = transformator;
 	}
 
-	public void setStore(InterestsStore store) {
+	public void setStore(InterestStore store) {
 		NullCheck.NotNull("store", store);
 		this.store = store;
 	}

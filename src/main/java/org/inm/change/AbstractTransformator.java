@@ -8,8 +8,7 @@ import java.util.List;
 
 import org.h2.util.IOUtils;
 import org.htmlcleaner.TagNode;
-
-import org.inm.interests.Interest;
+import org.inm.interest.Interest;
 
 public abstract class AbstractTransformator {
 

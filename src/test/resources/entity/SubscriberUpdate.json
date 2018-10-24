@@ -1,0 +1,11 @@
+{
+	"email" : "www@example.org",
+	"subscriptions" : [
+		{
+			"name" : "Cheap Stuff",
+			"websiteUrl" :"http://www.example.org",
+			"subscribableUrl" : "http://www.example.org/def",
+			"rule" : "details.price < 200"
+		}
+	]
+}

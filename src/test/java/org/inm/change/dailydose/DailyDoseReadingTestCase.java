@@ -2,10 +2,9 @@ package org.inm.change.dailydose;
 
 import java.util.Iterator;
 
+import org.inm.interest.Interest;
 import org.junit.Assert;
 import org.junit.Test;
-
-import org.inm.interests.Interest;
 
 public class DailyDoseReadingTestCase {
 

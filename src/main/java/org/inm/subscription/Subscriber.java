@@ -10,26 +10,16 @@ public class Subscriber implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String eMail;
-
-	private long timestamp;
+	private String email;
 
 	private List<Subscription> subscriptions;
 
-	public String geteMail() {
-		return eMail;
+	public String getEmail() {
+		return email;
 	}
 
-	public void seteMail(String eMail) {
-		this.eMail = eMail;
-	}
-
-	public long getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(long timestamp) {
-		this.timestamp = timestamp;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public List<Subscription> getSubscriptions() {

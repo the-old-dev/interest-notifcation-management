@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
 import org.inm.change.AbstractTransformator;
-import org.inm.interests.Interest;
+import org.inm.interest.Interest;
 
 class DailyDoseOffersTransformator extends AbstractTransformator {
 
