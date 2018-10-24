@@ -29,8 +29,12 @@ class Write<T extends Serializable> {
 	
 	}
 
-	public void delete(T entity) {
+	void delete(T entity) {
 		this.repository.remove(entity);
 	}
+	
+	void register(AbstractChangeListener<T> listener) {
+	    this.repository.register(listener);
+    }
 
 }

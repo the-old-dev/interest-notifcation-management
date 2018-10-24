@@ -1,18 +1,10 @@
 package org.inm.store;
 
-import org.junit.Assert;
-
 public class StoreTestCase extends AbstractStoreTestCase<TestEntity> {
 
 	@Override
 	protected void updateEntity(TestEntity entity) throws Exception {
 		entity.setName("MyName B");
-	}
-
-	@Override
-	protected void testEntity(TestEntity entity, TestEntity found) throws Exception {
-		Assert.assertEquals(entity.getUrl(), found.getUrl());
-		Assert.assertEquals(entity.getName(), found.getName());
 	}
 
 	@Override
@@ -25,8 +17,7 @@ public class StoreTestCase extends AbstractStoreTestCase<TestEntity> {
 
 	@Override
 	protected AbstractStore<TestEntity> createStore() throws Exception {
-		TestStore store = new TestStore(true);
-		return store;
+		return new TestStore(true);
 	}
 
 }

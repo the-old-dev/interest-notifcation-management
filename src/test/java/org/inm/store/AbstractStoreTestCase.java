@@ -5,6 +5,8 @@ import java.io.Serializable;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.cedarsoftware.util.DeepEquals;
+
 public abstract class AbstractStoreTestCase<T extends Serializable> {
 
 	public AbstractStoreTestCase() {
@@ -14,10 +16,12 @@ public abstract class AbstractStoreTestCase<T extends Serializable> {
 	protected abstract AbstractStore<T> createStore() throws Exception ;
 
 	protected abstract T createEntity() throws Exception ;
-
-	protected abstract void testEntity(T entity, T found) throws Exception ;
 	
 	protected abstract void updateEntity(T entity) throws Exception  ;
+
+    protected  void testEntity(T entity, T found) throws Exception {
+        Assert.assertTrue(DeepEquals.deepEquals(entity, found));
+    }
 
 	@Test
 	public void testCRUD() throws Exception {

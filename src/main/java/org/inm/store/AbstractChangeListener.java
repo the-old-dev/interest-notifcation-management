@@ -10,6 +10,9 @@ import org.dizitart.no2.mapper.NitriteMapper;
 
 public abstract class AbstractChangeListener<T extends Serializable> implements ChangeListener {
 
+    private NitriteMapper mapper;
+    private Class<T> entityClass;
+
 	@Override
 	public final void onChange(ChangeInfo changeInfo) {
 		
@@ -39,10 +42,14 @@ public abstract class AbstractChangeListener<T extends Serializable> implements 
 		}
 
 	}
+	
+	void initialize(NitriteMapper mapper, Class<T> entityClass) {
+	    this.mapper = mapper;
+	    this.entityClass = entityClass;
+	}
 
 	private  T getObject(ChangedItem item) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.mapper.asObject(item.getDocument(), entityClass);
 	}
 	
 	protected  abstract  void onUpdate(T object) ;

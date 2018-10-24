@@ -68,7 +68,7 @@ public abstract class AbstractStore<T extends Serializable> {
 	}
 	
 	public void register(AbstractChangeListener<T> listener) {
-		listener.setMapper(this.nitrite.getContext().getNitriteMapper());
-		//TODO continue here ...
+		listener.initialize(this.nitrite.getContext().getNitriteMapper(), getStoreClass());
+		this.write.register(listener);
 	}
 }
