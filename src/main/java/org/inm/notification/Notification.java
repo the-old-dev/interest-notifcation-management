@@ -50,17 +50,16 @@ public class Notification implements Serializable {
 		this.interests = interests;
 	}
 
-	void generateId() {
+	void enshureId() {
 		setId(createId());
 	}
 
-	int createId() {
-		String aSubscriberEmail = subscriberEmail;
-		Subscription aSubscription = subscription;
-		return createID(aSubscriberEmail, aSubscription);
-	}
-
-	public static int createID(String aSubscriberEmail, Subscription aSubscription) {
+	static int createID(String aSubscriberEmail, Subscription aSubscription) {
+	    
+	    if (!isReadyForIdCreation(aSubscriberEmail, aSubscription)) {
+	       throw new IllegalArgumentException("Parameters are null, empty or any fields of them"); 
+	    }
+	    
 		String idBase = aSubscriberEmail + aSubscription.getName() + aSubscription.getWebsiteUrl().toString()
 				+ aSubscription.getSubscribableUrl();
 		for (String rule : aSubscription.getRules()) {
@@ -69,4 +68,59 @@ public class Notification implements Serializable {
 		return idBase.hashCode();
 	}
 
+    private int createId() {
+		return createID(this.subscriberEmail, this.subscription);
+	}
+	
+	private static boolean isReadyForIdCreation(String aSubscriberEmail, Subscription aSubscription) {
+	   
+	   if (isNullOrEmpty(aSubscriberEmail)) {
+	        return false;
+	   }
+	    
+	   if ( isNotFullyFilled(aSubscription) )  {
+	        return false;
+	   }
+	    
+	   return true;
+	
+	}
+	
+	private static boolean isNotFullyFilled(Subscription subscription) {
+	    
+	   if (subscription == null) {
+	       return true;
+	   }
+	    
+	   if (isNullOrEmpty(subscription.getName())) {
+	       return true;
+	   }
+
+	   if (isNullOrEmpty(subscription.getWebsiteUrl())) {
+	       return true;
+	   }
+	   
+	   if (isNullOrEmpty(subscription.getSubscribableUrl().toExternalForm())) {
+	       return true;
+	   }
+	   
+	   for (String rule : subscription.getRules()) {
+    	   if (isNullOrEmpty(rule)) {
+    	       return true;
+    	   }  
+       }
+	    
+       return false;
+	    
+	}
+
+    private static boolean isNullOrEmpty(String value) {
+        
+        if (value == null || value.equals("") ) {
+            return true;
+        } 
+        
+        return false;
+        
+    }
 }

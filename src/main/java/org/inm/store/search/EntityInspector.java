@@ -1,6 +1,5 @@
 package org.inm.store.search;
 
-import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -20,7 +19,7 @@ class EntityInspector {
 		this.idFields = new HashMap<>();
 	}
 
-	Field getIDField(Class<? extends Serializable> entityClass) {
+	Field getIDField(Class<?> entityClass) {
 
 		Field idField = findIDField(entityClass);
 
@@ -71,7 +70,7 @@ class EntityInspector {
 		return name.substring(0, 1).toUpperCase() + name.substring(1);
 	}
 
-	private Field findIDField(Class<? extends Serializable> entityClass) {
+	private Field findIDField(Class<?> entityClass) {
 
 		Field idField = this.idFields.get(entityClass);
 		

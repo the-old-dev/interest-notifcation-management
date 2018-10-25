@@ -8,9 +8,9 @@ import org.dizitart.no2.Nitrite;
 
 class Configuration {
 	
-	private AbstractStore<?> store;
+	private AbstractStoreBase<?> store;
 	
-	Configuration(AbstractStore<?> store) {
+	Configuration(AbstractStoreBase<?> store) {
 		this.store = store;
 	}
 	

@@ -24,6 +24,8 @@ public abstract class AbstractStoreTestCase<T extends Serializable> {
 
 	protected abstract Class<T> getEntityClass();
 
+    
+
 	@Test
 	public void testCRUD() throws Exception {
 		

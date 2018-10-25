@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import org.dizitart.no2.NitriteId;
+import org.dizitart.no2.objects.Cursor;
 import org.dizitart.no2.objects.ObjectFilter;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.dizitart.no2.objects.filters.ObjectFilters;
@@ -19,13 +20,27 @@ public class Search<T extends Serializable> {
 	}
 
 	public boolean exists(T entity) {
-		
+	    
 		Field idField = inspector.getIDField(entity.getClass());
 		Object idValue = inspector.getValue(entity, idField);
+	    
+		return findByIdField(entity.getClass(), idValue) != null;
+    }
+    
+    public T findByIdField (Class<?> entityClass, Object idValue) {
+	    
+	    Field idField = inspector.getIDField(entityClass);
+	    Cursor<T> found = find(idField, idValue);
+	    
+	    return found.firstOrDefault();
+    }
+	
+	Cursor<T> find (Field field, Object idValue) {
+	    
+	    String idFieldName = field.getName();
+		ObjectFilter filter = ObjectFilters.eq(idFieldName, idValue);
 		
-		ObjectFilter filter = ObjectFilters.eq(idField.getName(), idValue);
-		return this.repository.find(filter).iterator().hasNext();
-		
+		return this.repository.find(filter);
 	}
 	
 	public T find(NitriteId id) {

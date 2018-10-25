@@ -23,10 +23,18 @@ public class NotificationStoreTestcase extends AbstractStoreTestCase<Notificatio
 		Notification other = createEntity();
 		
 		Integer initialId = one.getId();
-		one.generateId();
+		one.enshureId();
 		Assert.assertNotEquals(initialId, one.getId());	
 		
-		other.generateId();
+		other.enshureId();
 		Assert.assertEquals(one.getId(), other.getId());
 	}
+	
+	@Test
+	public void testFind() throws Exception {
+	    
+	    Notification one = createEntity();
+	    
+	}
+	
 }
