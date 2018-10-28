@@ -1,0 +1,30 @@
+{
+	"url": "https://www.dailydose.de/private-kleinanzeigen/",
+	"name": "Daily Dose Private Kleinanzeigen",
+	"subscribables": [
+		{
+			"url": "https://www.dailydose.de/private-kleinanzeigen/index.php?catid=25",
+			"category": "Windsurfen",
+			"subCategory": "Foils",
+			"name": "Foils"
+		},
+		{
+			"url": "https://www.dailydose.de/private-kleinanzeigen/index.php?catid=1",
+			"category": "Windsurfen",
+			"subCategory": "Finnen",
+			"name": "Finnen"
+		},
+		{
+			"url": "https://www.dailydose.de/private-kleinanzeigen/index.php?catid=5",
+			"category": "Windsurfen",
+			"subCategory": "Segel",
+			"name": "Segel"
+		},
+		{
+			"url": "https://www.dailydose.de/private-kleinanzeigen/index.php?catid=11",
+			"category": "Windsurfen",
+			"subCategory": "Windsurfboards",
+			"name": "Windsurfboards"
+		}
+	]
+}

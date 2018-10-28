@@ -20,10 +20,14 @@ import java.net.URL;
 import org.arquillian.cube.openshift.impl.enricher.AwaitRoute;
 import org.arquillian.cube.openshift.impl.enricher.RouteURL;
 import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
 public class OpenShiftIT extends AbstractBoosterApplicationTest {
+	
+	@Test
+	public void dummyTest() {}
 
     @AwaitRoute(path = "/health")
     @RouteURL("${app.name}")

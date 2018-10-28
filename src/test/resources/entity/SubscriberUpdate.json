@@ -5,7 +5,9 @@
 			"name" : "Cheap Stuff",
 			"websiteUrl" :"http://www.example.org",
 			"subscribableUrl" : "http://www.example.org/def",
-			"rule" : "details.price < 200"
+			"rules" : [
+				"details.price < 200"
+			]
 		}
 	]
 }

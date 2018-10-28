@@ -1,9 +1,14 @@
-{  
-	"url" : "http://www.example.org",
-	"subscribables" : [
+{
+	"url": "http://www.example.org",
+	"name": "Example Site",
+	"subscribables": [
 		{
-			"url" : "http://www.example.org/abc",
-			"name" : "Things"
+			"url": "http://www.example.org/abc",
+			"category": "All things",
+			"subCategory": "Special things",
+			"name": "Things",
+			"websiteUrl": "http://www.example.org",
+			"changeDetectionClass": "org.inm.website.DummyChangeDetector"
 		}
 	]
 }

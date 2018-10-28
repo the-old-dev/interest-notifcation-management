@@ -1,5 +1,7 @@
 package org.inm.notification;
 
+import java.net.URL;
+
 import org.inm.store.AbstractStore;
 import org.inm.store.AbstractStoreTestCase;
 import org.junit.Assert;
@@ -32,8 +34,22 @@ public class NotificationStoreTestcase extends AbstractStoreTestCase<Notificatio
 	
 	@Test
 	public void testFind() throws Exception {
+		
+		NotificationStore nStore = (NotificationStore) this.store;
 	    
 	    Notification one = createEntity();
+	    Notification two = createEntity();
+	    
+	    two.getSubscription().setSubscribableUrl(new URL(two.getSubscription().getSubscribableUrl(), "/001"));
+	    
+	    nStore.insert(one);
+	    nStore.insert(two);
+	    
+	    Notification foundOne = nStore.findByPrimaryKeys(one.getSubscriberEmail(), one.getSubscription());
+	    this.testEntity(one, foundOne);
+	    
+	    Notification foundTwo = nStore.findByPrimaryKeys(two.getSubscriberEmail(), two.getSubscription());
+	    this.testEntity(two, foundTwo);
 	    
 	}
 	

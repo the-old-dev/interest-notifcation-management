@@ -1,6 +1,0 @@
-https://docs.spring.io/spring-security/site/docs/current/guides/html5/helloworld-boot.html
-https://hellokoding.com/registration-and-login-example-with-spring-security-spring-boot-spring-data-jpa-hsql-jsp/
-https://grokonez.com/spring-framework/spring-mvc/spring-security-config-security-mvc-web-spring-boot
-https://www.baeldung.com/csrf-thymeleaf-with-spring-security
-https://jaxenter.de/angular-csrf-spring-boot-52223
-https://docs.spring.io/spring-security/site/docs/current/reference/html/jc.html

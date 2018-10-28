@@ -1,25 +1,21 @@
 package io.openshift.booster.service;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 // Nitrite B
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.Cursor;
 import org.dizitart.no2.objects.ObjectRepository;
-import org.inm.change.dailydose.Constants;
-import org.inm.change.dailydose.DailyDoseOffersReader;
+import org.inm.website.dailydose.DailyDoseOffersReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URL;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Properties;
-
-@RestController
+// @RestController
 public class GreetingEndpoint {
 
     private final String template;
@@ -99,7 +95,10 @@ public class GreetingEndpoint {
             DailyDoseOffersReader reader = new DailyDoseOffersReader();
         
             // initialise instances
-            reader.setUrl(new URL(Constants.BASE_URL));
+            boolean implemented  = false;
+            if (implemented == false) {
+            	throw new RuntimeException("Not yet implemented");
+            }
         
             // run & return
             return "First tag:=" + reader.getActualDataAsXml().toString();

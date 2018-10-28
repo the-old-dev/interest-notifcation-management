@@ -1,0 +1,13 @@
+{
+	"url": "https://www.dailydose.de/private-kleinanzeigen/",
+	"name": "Daily Dose Private Kleinanzeigen",
+	"subscribables": [
+		{
+			"url": "https://www.dailydose.de/private-kleinanzeigen/index.php?catid=25",
+			"category": "Windsurfen",
+			"subCategory": "Foils",
+			"name": "Foils",
+			"websiteUrl": "https://www.dailydose.de/private-kleinanzeigen/"
+		}
+	]
+}

@@ -30,12 +30,13 @@ class Configuration {
 	
 		try {
 			File dbFile = new File(dbFilePath);
-			FileUtils.forceMkdir(dbFile);
+			FileUtils.forceMkdir(dbFile.getParentFile());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	
-		return Nitrite.builder().filePath(dbFilePath).autoCommitBufferSize(1).openOrCreate();
+		Nitrite nitriteDb = Nitrite.builder().filePath(dbFilePath).autoCommitBufferSize(1).openOrCreate();
+		return nitriteDb;
 	
 	}
 

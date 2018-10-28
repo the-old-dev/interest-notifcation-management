@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.dizitart.no2.objects.Id;
+import org.inm.website.Subscribable;
 
 public class Interest implements Serializable {
 
@@ -15,9 +16,7 @@ public class Interest implements Serializable {
 	@Id
 	private String url;
 
-	private URL subscribable;
-	private String category;
-	private String subCategory;
+	private Subscribable detectedOn;
 	private String title;
 	private long lastUpdated;
 	private HashMap<String, Object> details;
@@ -26,32 +25,16 @@ public class Interest implements Serializable {
 		this.details = new HashMap<>();
 	}
 
-	public URL getSubscribable() {
-		return subscribable;
+	public Subscribable getDetectedOn() {
+		return detectedOn;
 	}
 
-	public void setSubscribable(URL subscribable) {
-		this.subscribable = subscribable;
+	public void setDetectedOn(Subscribable detectedOn) {
+		this.detectedOn = detectedOn;
 	}
 
 	public void setDetails(HashMap<String, Object> details) {
 		this.details = details;
-	}
-
-	public String getSubCategory() {
-		return subCategory;
-	}
-
-	public void setSubCategory(String subCategory) {
-		this.subCategory = subCategory;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
 	}
 
 	public String getUrl() {

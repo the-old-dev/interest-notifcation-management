@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.cedarsoftware.util.DeepEquals;
@@ -15,6 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class AbstractStoreTestCase<T extends Serializable> {
 
 	private static final String PATH_RESOURCES_ENTITY = "src/test/resources/entity/";
+	
+	protected AbstractStore<T> store;
 
 	public AbstractStoreTestCase() {
 		super();
@@ -24,12 +28,19 @@ public abstract class AbstractStoreTestCase<T extends Serializable> {
 
 	protected abstract Class<T> getEntityClass();
 
+    @Before
+    public void setup() throws Exception {
+    	store = createStore();
+    }
+    
+    @After
+    public void teardown() throws Exception {
+    	store.close();
+    }
     
 
 	@Test
 	public void testCRUD() throws Exception {
-		
-		AbstractStore<T> store = createStore();
 		
 		T entity = createEntity();
 		

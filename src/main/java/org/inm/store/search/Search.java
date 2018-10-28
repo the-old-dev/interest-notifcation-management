@@ -38,6 +38,10 @@ public class Search<T extends Serializable> {
 	Cursor<T> find (Field field, Object idValue) {
 	    
 	    String idFieldName = field.getName();
+		return (Cursor<T>)find(idFieldName, idValue);
+	}
+
+	public Iterable<T> find(String idFieldName, Object idValue) {
 		ObjectFilter filter = ObjectFilters.eq(idFieldName, idValue);
 		
 		return this.repository.find(filter);

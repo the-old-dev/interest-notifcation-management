@@ -1,8 +1,10 @@
 package org.inm.store;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.dizitart.no2.NitriteId;
+import org.dizitart.no2.util.Iterables;
 
 public abstract class AbstractStore<T extends Serializable> extends AbstractStoreBase<T> {
 
@@ -16,7 +18,7 @@ public abstract class AbstractStore<T extends Serializable> extends AbstractStor
 	public T insert (T entity) {
 		
 		if (getSearch(entity).exists(entity)) {
-			throw new IllegalArgumentException("This entity exists allready in the Store" + entity.toString());
+			throw new IllegalArgumentException("This entity exists allready in the Store, entity:=" + entity.toString());
 		}
 
 		NitriteId id = getWrite(entity).insert(entity);
@@ -45,9 +47,12 @@ public abstract class AbstractStore<T extends Serializable> extends AbstractStor
 		this.getWrite(entity).delete(entity);
 	}
 
-	@SuppressWarnings("null")
     public Iterable<T> findAll() {
 		return this.getSearch((T)null).findAll();
 	}
+    
+    public List<T> findAllAsList() {
+    	return Iterables.toList(this.findAll());
+    }
 	
 }

@@ -8,6 +8,10 @@ public class WebsiteStore extends AbstractStore<Website> {
 		super(inMemory);
 	}
 
+	public WebsiteStore() {
+		this(false);
+	}
+
 	@Override
 	protected Class<Website> getStoreClass() {
 		return Website.class;
