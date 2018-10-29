@@ -1,12 +1,35 @@
 {
-	"email" : "www@example.org",
-	"subscriptions" : [
+	"email": "www@example.org",
+	"password": "ishashed",
+	"subscriptions": [
 		{
-			"name" : "Cheap Stuff",
-			"websiteUrl" :"http://www.example.org",
-			"subscribableUrl" : "http://www.example.org/def",
-			"rules" : [
-				"details.price < 200"
+			"email": "www@example.org",
+			"subscribableUrl": "http://www.example.org/abc",
+			"name": "Cheap Stuff",
+			"rule": {
+				"type": "And",
+				"contained": [
+					{
+						"type": "Equals",
+						"field": "a",
+						"value": "b"
+					},
+					{
+						"type": "LessThen",
+						"field": "b",
+						"value": "1"
+					},
+					{
+						"type": "LessThenEquals",
+						"field": "c",
+						"value": "2"
+					}
+				]
+			},
+			"interestsUrls": [
+				"http://www.example.org/abc/001",
+				"http://www.example.org/abc/002",
+				"http://www.example.org/abc/003"
 			]
 		}
 	]

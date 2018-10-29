@@ -1,9 +1,9 @@
-package org.inm.subscription.filter;
+package org.inm.subscription;
 
 import org.dizitart.no2.objects.ObjectFilter;
 import org.dizitart.no2.objects.filters.ObjectFilters;
 
-abstract class FieldFilter extends AbstractFilter {
+abstract class AbstractFieldFilterDefinition extends AbstractFilterDefinition {
         
     private String field;
     private Object value;
@@ -21,7 +21,7 @@ abstract class FieldFilter extends AbstractFilter {
     }
     
     public Object getValue() {
-        return this.field;
+        return this.value;
     }
     
     protected ObjectFilter create(TYPES type) {

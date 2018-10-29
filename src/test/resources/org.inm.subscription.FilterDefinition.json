@@ -1,0 +1,20 @@
+{
+	"type": "And",
+	"contained": [
+		{
+			"type": "Equals",
+			"field": "a",
+			"value": "b"
+		},
+		{
+			"type": "LessThen",
+			"field": "b",
+			"value": "1"
+		},
+		{
+			"type": "LessThenEquals",
+			"field": "c",
+			"value": "2"
+		}
+	]
+}

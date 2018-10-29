@@ -7,14 +7,14 @@ public class Subscription implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-    // Uniqueness fields:
-    private URL subscribableUrl;
-    private String email;
+	// Uniqueness fields:
+	private URL subscribableUrl;
+	private String email;
 
-    
+	// Data fields
 	private String name;
+	private FilterDefinition rule;
 	private String[] interestsUrls;
-	private String[] rules;
 
 	public String getName() {
 		return name;
@@ -32,7 +32,6 @@ public class Subscription implements Serializable {
 		this.email = email;
 	}
 
-
 	public URL getSubscribableUrl() {
 		return subscribableUrl;
 	}
@@ -41,7 +40,7 @@ public class Subscription implements Serializable {
 		this.subscribableUrl = subscribableUrl;
 	}
 
-    public String[] getInterestsUrls() {
+	public String[] getInterestsUrls() {
 		return interestsUrls;
 	}
 
@@ -49,12 +48,12 @@ public class Subscription implements Serializable {
 		this.interestsUrls = interestsUrls;
 	}
 
-	public String[] getRules() {
-		return rules;
+	public FilterDefinition getRule() {
+		return rule;
 	}
 
-	public void setRule(String[] rules) {
-		this.rules = rules;
+	public void setRule(FilterDefinition rule) {
+		this.rule = rule;
 	}
 
 }

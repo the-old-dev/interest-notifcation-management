@@ -1,8 +1,8 @@
-package org.inm.subscription.filter;
+package org.inm.subscription;
 
 import org.dizitart.no2.objects.ObjectFilter;
 
-abstract class AbstractFilter {
+abstract class AbstractFilterDefinition {
     
     public enum TYPES {
         And, Equals, LessThen, LessThenEquals
