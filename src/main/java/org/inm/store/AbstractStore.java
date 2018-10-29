@@ -54,5 +54,9 @@ public abstract class AbstractStore<T extends Serializable> extends AbstractStor
     public List<T> findAllAsList() {
     	return Iterables.toList(this.findAll());
     }
+    
+    public List<T> findByField(String fieldName, Object value) {
+		return Iterables.toList(getSearch(null).find(fieldName, value));
+	}
 	
 }

@@ -6,6 +6,9 @@ import org.inm.website.WebsiteStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Creates the spring beans for autowiring
+ */
 @Configuration
 public class ApplicationContextConfiguration {
 

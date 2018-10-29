@@ -5,6 +5,8 @@ import org.inm.interest.InterestStore;
 import org.inm.store.AbstractStore;
 import org.inm.store.AbstractStoreTestCase;
 
+import org.junit.Test;
+
 public class InterestStoreTestcase extends AbstractStoreTestCase<Interest> {
 
 	@Override
@@ -16,5 +18,8 @@ public class InterestStoreTestcase extends AbstractStoreTestCase<Interest> {
 	protected Class<Interest> getEntityClass() {
 		return Interest.class;
 	}
+	
+	@Test
+	public void dummy() {}
 
 }

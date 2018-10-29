@@ -15,9 +15,7 @@ public class InterestStore extends AbstractStore<Interest> {
 		super(inMemory);
 	}
 
-	public List<Interest> findByField(String fieldName, Object value) {
-		return Iterables.toList(getSearch(null).find(fieldName, value));
-	}
+
 
 	@Override
 	protected Class<Interest> getStoreClass() {
