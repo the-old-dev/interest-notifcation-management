@@ -7,7 +7,7 @@ import org.inm.store.AbstractStoreTestCase;
 
 import org.junit.Test;
 
-public class InterestStoreTestcase extends AbstractStoreTestCase<Interest> {
+public class InterestStoreTestCase extends AbstractStoreTestCase<Interest> {
 
 	@Override
 	protected AbstractStore<Interest> createStore() throws Exception {
