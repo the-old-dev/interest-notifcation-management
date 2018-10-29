@@ -3,7 +3,7 @@ package org.inm.subscription;
 import org.inm.store.AbstractStore;
 import org.inm.store.AbstractStoreTestCase;
 
-public class SubscriberStoreTestcase extends AbstractStoreTestCase<Subscriber> {
+public class SubscriberStoreTestCase extends AbstractStoreTestCase<Subscriber> {
 
 	@Override
 	protected Class<Subscriber> getEntityClass() {
