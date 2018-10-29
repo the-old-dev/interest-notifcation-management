@@ -8,7 +8,7 @@ import org.inm.server.dummy.subfolder.AnnotatedDummy2;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SpringAnnotatedClassScannerTestcase {
+public class SpringAnnotatedClassScannerTestCase {
 
 	@Test
 	public void testAfterApplicationStartupAnnotation() throws Exception {
