@@ -5,7 +5,7 @@ import org.junit.Assert;
 
 import org.inm.util.Json2ObjectReader;
 
-public class QueryDefinitionTestcase {
+public class QueryDefinitionTestCase {
     
     @Test
     public void testJsonDefinition() throws Exception {
