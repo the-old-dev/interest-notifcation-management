@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import junit.framework.AssertionFailedError;
 
-public abstract class AbstractConfigurationTestcase {
+public abstract class AbstractConfigurationTestCase {
 
 	
 	@Test
