@@ -11,7 +11,7 @@ import org.inm.website.dailydose.DailyDoseOffersChangeDetector;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class DailyDoseOffersChangeDetectorTestcase {
+public class DailyDoseOffersChangeDetectorTestCase {
 
 	@Test
 	public void testOffersChangeDetection() throws Exception {
