@@ -2,7 +2,7 @@ package org.inm.website;
 
 import org.inm.website.AbstractConfiguration;
 
-public class DummyConfigurationTestcase extends AbstractConfigurationTestcase {
+public class DummyConfigurationTestCase extends AbstractConfigurationTestcase {
 
 	@Override
 	protected AbstractConfiguration getConfiguration() {
