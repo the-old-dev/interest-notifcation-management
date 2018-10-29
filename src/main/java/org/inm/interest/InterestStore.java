@@ -1,8 +1,5 @@
 package org.inm.interest;
 
-import java.util.List;
-
-import org.dizitart.no2.util.Iterables;
 import org.inm.store.AbstractStore;
 
 public class InterestStore extends AbstractStore<Interest> {

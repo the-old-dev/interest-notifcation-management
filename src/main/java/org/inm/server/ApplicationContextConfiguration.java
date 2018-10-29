@@ -1,6 +1,7 @@
 package org.inm.server;
 
 import org.inm.interest.InterestStore;
+import org.inm.subscription.SubscriberStore;
 import org.inm.website.ChangeDetectionExecutor;
 import org.inm.website.WebsiteStore;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,11 @@ public class ApplicationContextConfiguration {
         @Bean
         public WebsiteStore websiteStore () {
             return new WebsiteStore();
+        }
+        
+        @Bean
+        public SubscriberStore subscriberStore () {
+            return new SubscriberStore();
         }
         
         @Bean

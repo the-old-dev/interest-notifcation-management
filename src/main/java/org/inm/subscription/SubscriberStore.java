@@ -4,6 +4,10 @@ import org.inm.store.AbstractStore;
 
 public class SubscriberStore extends AbstractStore<Subscriber> {
 
+	public SubscriberStore() {
+		this(false);
+	}
+	
 	public SubscriberStore(boolean inMemory) {
 		super(inMemory);
 	}
