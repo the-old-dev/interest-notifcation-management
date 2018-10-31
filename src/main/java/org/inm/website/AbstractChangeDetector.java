@@ -1,7 +1,5 @@
 package org.inm.website;
 
-import java.net.URL;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +47,7 @@ public abstract class AbstractChangeDetector implements Runnable {
 
 		this.transformator.setWebsite(this.website);
 		this.reader.setWebsite(this.website);
+		this.reader.setUrl(this.subscribable.getUrl());
 	}
 
 	@Override
@@ -56,22 +55,40 @@ public abstract class AbstractChangeDetector implements Runnable {
 
 		checkPreparation();
 
-		Iterator<Interest> entityList = readAndTransform(this.subscribable.getUrl());
-
-		// Insert the new entities into the store
 		try {
-			while (entityList.hasNext()) {
-				Interest news = entityList.next();
-				news.setDetectedOn(this.subscribable);
-				if (!store.exists(news)) {
-					store.insert(news);
-				} else {
-					store.update(news);
+
+			TagNode html = this.reader.next();
+			List<Interest> entityList = this.transformator.transform(html);
+			
+			while (entityList.size() > 0) {
+
+				// Insert the new entities into the store
+				for (Interest news : entityList) {
+
+					news.setDetectedOn(this.subscribable);
+
+					if (!store.exists(news)) {
+						store.insert(news);
+					} else {
+						Interest existing = this.store.findByIdField(news.getUrl());
+						boolean stop = stop(news, existing);
+						if (stop) {
+							return;
+						}
+						store.update(news);
+					}
+
 				}
+
+				html = this.reader.next();
+				entityList = this.transformator.transform(html);
+				
 			}
+
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error occured while executing ", e);
 		}
+
 	}
 
 	protected void checkPreparation() {
@@ -81,27 +98,6 @@ public abstract class AbstractChangeDetector implements Runnable {
 		NullCheck.NotNull("website", website);
 	}
 
-	protected Iterator<Interest> readAndTransform(URL url) {
-
-		TagNode xhmlNode = null;
-		List<Interest> entityList = null;
-
-		// Call the reader
-		try {
-			reader.setUrl(url);
-			xhmlNode = reader.getActualDataAsXml();
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, "Error occured while reading via " + reader.getClass().getName(), e);
-		}
-
-		// Call the transformator
-		try {
-			entityList = transformator.transform(xhmlNode);
-		} catch (Exception e) {
-			LOGGER.log(Level.ALL, "Error occured while transforming via " + transformator.getClass().getName(), e);
-		}
-
-		return entityList.iterator();
-	}
+	protected abstract boolean stop(Interest readed, Interest existing);
 
 }

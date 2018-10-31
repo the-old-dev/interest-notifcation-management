@@ -26,6 +26,6 @@ public abstract class AbstractReader {
 		this.website = website;
 	}
 
-	public abstract TagNode getActualDataAsXml() throws IOException;
+	public abstract TagNode next() throws IOException;
 
 }

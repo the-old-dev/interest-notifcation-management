@@ -1,0 +1,2 @@
+https://www.freecodecamp.org/forum/t/translating-a-json-data-to-html-element/137934
+https://github.com/padolsey-archive/prettyprint.js/blob/master/prettyprint.js

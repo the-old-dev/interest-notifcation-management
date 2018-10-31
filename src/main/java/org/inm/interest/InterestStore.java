@@ -12,7 +12,9 @@ public class InterestStore extends AbstractStore<Interest> {
 		super(inMemory);
 	}
 
-
+    public Interest findByIdField(String url) {
+		return findByField("url",url).iterator().next();
+	}
 
 	@Override
 	protected Class<Interest> getStoreClass() {

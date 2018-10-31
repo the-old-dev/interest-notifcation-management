@@ -13,7 +13,7 @@ public class WebSiteReader extends AbstractReader {
 	 * 
 	 * @see de.im.changes.AbstractReader#getActualDataAsXml()
 	 */
-	public TagNode getActualDataAsXml() throws IOException {
+	public TagNode next() throws IOException {
 
 		if (this.getUrl() == null) {
 			throw new IOException("this.url must not be null");

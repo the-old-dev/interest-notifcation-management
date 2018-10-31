@@ -28,7 +28,7 @@ public class ScheduledTasks {
 	@Autowired
 	InterestStore interestStore;
 
-	@Scheduled(initialDelay = 5000000, fixedDelay = 5000000)
+	@Scheduled(fixedDelay = 5000000)
 	public void reportCurrentTime() {
 		log.info("The time is now {}", dateFormat.format(new Date()));
 		changeDetectionExecutor.execute(websiteStore, interestStore);

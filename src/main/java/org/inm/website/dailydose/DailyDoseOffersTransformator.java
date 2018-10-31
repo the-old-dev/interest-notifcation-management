@@ -119,7 +119,7 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 		DailyDoseOffersReader reader = new DailyDoseOffersReader();
 		reader.setUrl(new URL(url));
 
-		TagNode page = reader.getActualDataAsXml();
+		TagNode page = reader.next();
 
 		if (page == null) {
 			return null;
