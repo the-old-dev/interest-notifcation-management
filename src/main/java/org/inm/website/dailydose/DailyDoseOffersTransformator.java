@@ -13,11 +13,15 @@ import java.util.regex.Pattern;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
 import org.inm.interest.Interest;
+import org.inm.interest.Location;
+import org.inm.interest.LocationStore;
 import org.inm.website.AbstractTransformator;
 
 class DailyDoseOffersTransformator extends AbstractTransformator {
 
 	public final static String expression = "-?\\d+";
+	
+	private LocationStore locationStore;
 
 	@Override
 	public List<Interest> transform(TagNode xhmlNode) throws IOException {
@@ -68,7 +72,7 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 
 			String beschreibung = getBeschreibung(url);
 			Object preis = getPreis(row);
-			String ort = getOrt(row);
+			Location ort = getOrt(row);
 			Long datum = getDatum(row);
 			URL bildURL = getImage(row);
 
@@ -77,7 +81,7 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 			offer.setUrl(url);
 			offer.setTitle(artikel);
 			offer.setLastUpdated(visitedTime);
-			
+
 			offer.getDetails().put("price", preis);
 			offer.getDetails().put("description", beschreibung);
 			offer.getDetails().put("date", datum);
@@ -171,18 +175,20 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 		}
 	}
 
-	private String getOrt(TagNode row) throws XPatherException {
-		return getColumnText(row, 5);
+	private Location getOrt(TagNode row) throws XPatherException {
+		String locationName = getColumnText(row, 5);
+		Location location = this.locationStore.findByIdField(locationName);
+		return location;
 	}
 
 	private Object getPreis(TagNode row) throws XPatherException {
 		String columnValue = getColumnText(row, 4);
-		
+
 		Double preis = extractPreis(columnValue);
 		if (preis != null) {
 			return preis;
 		}
-		
+
 		return columnValue;
 	}
 
@@ -262,6 +268,10 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 		}
 
 		return columnNode;
+	}
+
+	public void setLocationStore(LocationStore locationStore) {
+		this.locationStore = locationStore;
 	}
 
 }

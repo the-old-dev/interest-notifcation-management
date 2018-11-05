@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.inm.interest.Interest;
 import org.inm.interest.InterestStore;
+import org.inm.interest.LocationStore;
 import org.inm.website.Website;
 import org.inm.website.WebsiteStore;
 import org.inm.website.dailydose.Configuration;
@@ -19,6 +20,7 @@ public class DailyDoseOffersChangeDetectorTestCase {
 		// Create dependencies
 		WebsiteStore websiteStore = new WebsiteStore(true);
 		InterestStore interestStore = new InterestStore(true);
+		LocationStore locationStore = new LocationStore(true);
 
 		// Run Configuration
 		Configuration configuration = new Configuration();
@@ -35,7 +37,7 @@ public class DailyDoseOffersChangeDetectorTestCase {
 
 		// Create Detector
 		DailyDoseOffersChangeDetector changeDetector = new DailyDoseOffersChangeDetector();
-		changeDetector.initialize(interestStore, website, website.getSubscribables().get(0));
+		changeDetector.initialize(interestStore, locationStore, website, website.getSubscribables().get(0));
 
 		// Run the detector
 		changeDetector.run();
@@ -76,7 +78,7 @@ public class DailyDoseOffersChangeDetectorTestCase {
 		}
 
 		// ### Update test ###
-		
+
 		// update the first elements lastupdated attribuge to 4 days old,
 		Interest firstOne = interestStore.findByIdField(firstId);
 		firstOne.setLastUpdated(firstOne.getLastUpdated() - (4 * DailyDoseOffersChangeDetector.A_DAY));
@@ -85,15 +87,16 @@ public class DailyDoseOffersChangeDetectorTestCase {
 		// Measure the time
 		Thread.sleep(101);
 		long meashuredTime = System.currentTimeMillis();
-		
+
 		// run the change Detector again
 		changeDetector.run();
-		
-		// Expect no updates. Check by an update time older than 100 ms of the meashuredTime
+
+		// Expect no updates. Check by an update time older than 100 ms of the
+		// meashuredTime
 		interests = interestStore.findAll().iterator();
 		while (interests.hasNext()) {
 			Interest interest = interests.next();
-			Assert.assertTrue((meashuredTime-interest.getLastUpdated())>100);
+			Assert.assertTrue((meashuredTime - interest.getLastUpdated()) > 100);
 		}
 	}
 

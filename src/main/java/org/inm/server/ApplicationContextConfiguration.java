@@ -1,6 +1,7 @@
 package org.inm.server;
 
 import org.inm.interest.InterestStore;
+import org.inm.interest.LocationStore;
 import org.inm.subscription.SubscriberStore;
 import org.inm.website.ChangeDetectionExecutor;
 import org.inm.website.WebsiteStore;
@@ -31,6 +32,11 @@ public class ApplicationContextConfiguration {
         @Bean
         public ChangeDetectionExecutor changeDetectionExecutor() {
         	return new ChangeDetectionExecutor();
+        }
+        
+        @Bean
+        public LocationStore locationStore() {
+        	return new LocationStore();
         }
 
 }

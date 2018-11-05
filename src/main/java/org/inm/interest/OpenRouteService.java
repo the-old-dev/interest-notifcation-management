@@ -2,6 +2,7 @@ package org.inm.interest;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * https://openrouteservice.org/dev/#/api-docs
+ * 
+ * @author user
+ *
+ */
 class OpenRouteService {
 
 	private static final Logger log = LoggerFactory.getLogger(OpenRouteService.class);
@@ -29,16 +36,23 @@ class OpenRouteService {
 			Navigateable found = geocodeSearch(cityName);
 			List<Double> coordinates = found.navigate("features").navigate("0").navigate("geometry")
 					.navigate("coordinates").getCollection();
-			return new Location(cityName, coordinates.get(0), coordinates.get(1));
+			Double longitude = coordinates.get(0);
+			Double latitude = coordinates.get(1);
+			return new Location(cityName, longitude, latitude);
 		} catch (IOException e) {
 			log.error("can not search for the city:=" + cityName, e);
 			return new Location(cityName, 0.0, 0.0);
 		}
 	}
 
+	/**
+	 * @param cityName,
+	 *            must not contain invalid request parameter characters like " "
+	 * @return
+	 */
 	Navigateable geocodeSearch(String cityName) throws JsonParseException, JsonMappingException, IOException {
-		String urlString = "http://api.openrouteservice.org/geocode/search?&api_key=" + API_KEY + "&text=" + cityName
-				+ "&boundary.country=DE&size=1";
+		String urlString = "http://api.openrouteservice.org/geocode/search?&api_key=" + API_KEY + "&text="
+				+ URLEncoder.encode(cityName) + "&boundary.country=DE&size=1";
 		URL url = new URL(urlString);
 
 		ObjectMapper objectMapper = new ObjectMapper();
