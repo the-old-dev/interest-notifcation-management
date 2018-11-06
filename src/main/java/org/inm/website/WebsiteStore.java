@@ -1,7 +1,9 @@
 package org.inm.website;
 
 import org.inm.store.AbstractStore;
+import org.springframework.stereotype.Component;
 
+@Component
 public class WebsiteStore extends AbstractStore<Website> {
 
 	public WebsiteStore(boolean inMemory) {

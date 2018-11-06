@@ -1,7 +1,9 @@
 package org.inm.subscription;
 
 import org.inm.store.AbstractStore;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SubscriberStore extends AbstractStore<Subscriber> {
 
 	public SubscriberStore() {

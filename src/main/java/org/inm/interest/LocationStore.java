@@ -1,9 +1,10 @@
 package org.inm.interest;
 
-import java.util.Iterator;
-
 import org.inm.store.AbstractStore;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LocationStore extends AbstractStore<Location> {
 
 	public LocationStore() {

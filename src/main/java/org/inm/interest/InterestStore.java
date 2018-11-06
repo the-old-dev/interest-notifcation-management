@@ -1,7 +1,9 @@
 package org.inm.interest;
 
 import org.inm.store.AbstractStore;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InterestStore extends AbstractStore<Interest> {
 
 	public InterestStore() {

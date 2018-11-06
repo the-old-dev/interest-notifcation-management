@@ -5,7 +5,9 @@ import org.inm.interest.LocationService;
 import org.inm.util.NullCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeDetectionExecutor {
 
 	private Logger logger = LoggerFactory.getLogger(ChangeDetectionExecutor.class);

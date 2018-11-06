@@ -1,7 +1,6 @@
 package org.inm.website.dailydose;
 
 import java.util.Iterator;
-
 import java.util.List;
 
 import org.inm.interest.Interest;
@@ -9,28 +8,62 @@ import org.inm.interest.InterestStore;
 import org.inm.interest.Location;
 import org.inm.interest.LocationService;
 import org.inm.interest.LocationStore;
-import org.inm.interest.OpenRouteService;
-
+import org.inm.server.ApplicationContextConfiguration;
+import org.inm.subscription.SubscriberStore;
 import org.inm.website.Website;
 import org.inm.website.WebsiteStore;
-import org.inm.website.dailydose.Configuration;
-import org.inm.website.dailydose.DailyDoseOffersChangeDetector;
-
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
 public class DailyDoseOffersChangeDetectorTestCase {
+
+	@ComponentScan("org.inm.interest")
+	@TestConfiguration
+	static class TestContextConfiguration extends ApplicationContextConfiguration {
+		
+		@Bean
+		public InterestStore interestStore() {
+			return new InterestStore(true);
+		}
+
+		@Bean
+		public WebsiteStore websiteStore() {
+			return new WebsiteStore(true);
+		}
+
+		@Bean
+		public SubscriberStore subscriberStore() {
+			return new SubscriberStore(true);
+		}
+
+        @Bean
+        public LocationStore locationStore() {
+        	return new LocationStore(true);
+        }
+        
+	}
+
+	@Autowired
+	WebsiteStore websiteStore;
+
+	@Autowired
+	InterestStore interestStore;
+
+	@Autowired
+	LocationStore locationStore;
+
+	@Autowired
+	LocationService locationService;
 
 	@Test
 	public void testOffersChangeDetection() throws Exception {
-
-		// Create dependencies
-		WebsiteStore websiteStore = new WebsiteStore(true);
-		InterestStore interestStore = new InterestStore(true);
-		LocationStore locationStore = new LocationStore(true);
-		OpenRouteService locationService = new OpenRouteService();
-		
-		locationService.setLocationStore(locationStore);
 
 		// Run Configuration
 		Configuration configuration = new Configuration();
@@ -82,12 +115,12 @@ public class DailyDoseOffersChangeDetectorTestCase {
 			Assert.assertNotNull(interest.getDetails().get("price"));
 			Assert.assertNotNull(interest.getDetails().get("description"));
 			Assert.assertNotNull(interest.getDetails().get("date"));
-			List<Location> locations = (List<Location>) interest.getDetails().get("locations");
+			List<Location> locations = interest.getLocations();
 			Assert.assertNotNull(locations);
-			for(Location location : locations) {
-			    System.out.println(location.toString());
+			for (Location location : locations) {
+				System.out.println(location.toString());
 			}
-			
+
 			Assert.assertNotNull(interest.getDetails().get("imageURL"));
 
 		}

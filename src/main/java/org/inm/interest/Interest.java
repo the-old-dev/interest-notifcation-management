@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.dizitart.no2.objects.Id;
@@ -19,10 +20,19 @@ public class Interest implements Serializable {
 	private Subscribable detectedOn;
 	private String title;
 	private long lastUpdated;
+	private List<Location> locations;
 	private HashMap<String, Object> details;
 
 	public Interest() {
 		this.details = new HashMap<>();
+	}
+
+	public List<Location> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
 	}
 
 	public Subscribable getDetectedOn() {

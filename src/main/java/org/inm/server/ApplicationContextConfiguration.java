@@ -1,49 +1,17 @@
 package org.inm.server;
 
-import org.inm.interest.InterestStore;
-import org.inm.interest.LocationStore;
-import org.inm.interest.LocationService;
-import org.inm.interest.OpenRouteService;
-import org.inm.subscription.SubscriberStore;
-import org.inm.website.ChangeDetectionExecutor;
-import org.inm.website.WebsiteStore;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * Creates the spring beans for autowiring
  */
 @Configuration
+@ComponentScan("org.inm")
+@EnableAutoConfiguration
 public class ApplicationContextConfiguration {
+       
 
-        @Bean
-        public InterestStore interestStore () {
-            return new InterestStore();
-        }
-        
-        @Bean
-        public WebsiteStore websiteStore () {
-            return new WebsiteStore();
-        }
-        
-        @Bean
-        public SubscriberStore subscriberStore () {
-            return new SubscriberStore();
-        }
-        
-        @Bean
-        public ChangeDetectionExecutor changeDetectionExecutor() {
-        	return new ChangeDetectionExecutor();
-        }
-        
-        @Bean
-        public LocationStore locationStore() {
-        	return new LocationStore();
-        }
-        
-        @Bean
-        public LocationService locationService() {
-        	return new OpenRouteService();
-        }
 
 }
