@@ -54,6 +54,10 @@ public class Location implements Serializable {
 	public double distance(Location location) {
 		return distance(this.latitude, this.longitude, location.latitude, location.longitude, "K");
 	}
+	
+	public String toString() {
+	    return "Location { name:="+getName()+", longitude:="+getLongitude()+", latitude:="+getLatitude()+" }";
+	}
 
 	private double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
 		double theta = lon1 - lon2;

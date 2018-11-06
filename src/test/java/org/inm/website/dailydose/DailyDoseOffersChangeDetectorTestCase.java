@@ -2,13 +2,20 @@ package org.inm.website.dailydose;
 
 import java.util.Iterator;
 
+import java.util.List;
+
 import org.inm.interest.Interest;
 import org.inm.interest.InterestStore;
+import org.inm.interest.Location;
+import org.inm.interest.LocationService;
 import org.inm.interest.LocationStore;
+import org.inm.interest.OpenRouteService;
+
 import org.inm.website.Website;
 import org.inm.website.WebsiteStore;
 import org.inm.website.dailydose.Configuration;
 import org.inm.website.dailydose.DailyDoseOffersChangeDetector;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,6 +28,9 @@ public class DailyDoseOffersChangeDetectorTestCase {
 		WebsiteStore websiteStore = new WebsiteStore(true);
 		InterestStore interestStore = new InterestStore(true);
 		LocationStore locationStore = new LocationStore(true);
+		OpenRouteService locationService = new OpenRouteService();
+		
+		locationService.setLocationStore(locationStore);
 
 		// Run Configuration
 		Configuration configuration = new Configuration();
@@ -37,7 +47,7 @@ public class DailyDoseOffersChangeDetectorTestCase {
 
 		// Create Detector
 		DailyDoseOffersChangeDetector changeDetector = new DailyDoseOffersChangeDetector();
-		changeDetector.initialize(interestStore, locationStore, website, website.getSubscribables().get(0));
+		changeDetector.initialize(interestStore, locationService, website, website.getSubscribables().get(0));
 
 		// Run the detector
 		changeDetector.run();
@@ -72,7 +82,12 @@ public class DailyDoseOffersChangeDetectorTestCase {
 			Assert.assertNotNull(interest.getDetails().get("price"));
 			Assert.assertNotNull(interest.getDetails().get("description"));
 			Assert.assertNotNull(interest.getDetails().get("date"));
-			Assert.assertNotNull(interest.getDetails().get("location"));
+			List<Location> locations = (List<Location>) interest.getDetails().get("locations");
+			Assert.assertNotNull(locations);
+			for(Location location : locations) {
+			    System.out.println(location.toString());
+			}
+			
 			Assert.assertNotNull(interest.getDetails().get("imageURL"));
 
 		}

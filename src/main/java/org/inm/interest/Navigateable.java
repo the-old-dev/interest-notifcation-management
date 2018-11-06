@@ -11,22 +11,28 @@ class Navigateable {
 		this.collection = collection;
 	}
 
+    /**
+     * Returns an object in any case.
+     */
 	@SuppressWarnings("unchecked")
 	Navigateable navigate(String key) {
+
+        if (this.collection == null) {
+            return new Navigateable(null);
+        }
 
 		Object value = null;
 
 		if (collection instanceof Map) {
 			value = ((Map<String, ?>) collection).get(key);
 		} else if (collection instanceof List) {
-			value = ((List<?>) collection).get(Integer.parseInt(key));
+		    int index = Integer.parseInt(key);
+		    if (index < ((List<?>) collection).size()) {
+			 value = ((List<?>) collection).get(index);
+		    }
 		}
 
-		if (value != null) {
-			return new Navigateable(value);
-		} else {
-			return null;
-		}
+		return new Navigateable(value);
 
 	}
 

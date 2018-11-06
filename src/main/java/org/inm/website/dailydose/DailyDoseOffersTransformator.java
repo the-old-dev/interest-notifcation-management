@@ -7,21 +7,25 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.StringTokenizer;
 
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
 import org.inm.interest.Interest;
 import org.inm.interest.Location;
-import org.inm.interest.LocationStore;
+import org.inm.interest.LocationService;
 import org.inm.website.AbstractTransformator;
+
+import org.inm.util.EmtyCheck;
 
 class DailyDoseOffersTransformator extends AbstractTransformator {
 
 	public final static String expression = "-?\\d+";
 	
-	private LocationStore locationStore;
+	private LocationService locationService;
 
 	@Override
 	public List<Interest> transform(TagNode xhmlNode) throws IOException {
@@ -72,7 +76,7 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 
 			String beschreibung = getBeschreibung(url);
 			Object preis = getPreis(row);
-			Location ort = getOrt(row);
+			List<Location> orte = getLocations(row);
 			Long datum = getDatum(row);
 			URL bildURL = getImage(row);
 
@@ -85,7 +89,7 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 			offer.getDetails().put("price", preis);
 			offer.getDetails().put("description", beschreibung);
 			offer.getDetails().put("date", datum);
-			offer.getDetails().put("location", ort);
+			offer.getDetails().put("locations", orte);
 			offer.getDetails().put("imageURL", bildURL);
 
 			return offer;
@@ -175,10 +179,55 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 		}
 	}
 
-	private Location getOrt(TagNode row) throws XPatherException {
-		String locationName = getColumnText(row, 5);
-		Location location = this.locationStore.findByIdField(locationName);
-		return location;
+	private List<Location> getLocations(TagNode row) throws XPatherException {
+
+		List<Location> locations = new ArrayList<Location>();		
+		String locationColumnValue = getColumnText(row, 5);
+		
+		if(EmtyCheck.isEmpty(locationColumnValue)) {
+		    return locations;
+		}
+		
+		// Get the locations in the column
+		for (String locationName : extractLocationNames(locationColumnValue)) {
+		  locations.add(this.locationService.getLocation(locationName));
+	    }
+
+		return locations;
+	}
+	
+	private List<String> extractLocationNames(String locationColumnValue) {
+	    
+	    List<String> locationNames = new ArrayList<String>();
+	    String delimiter = null;
+	    
+	    // Remove unlocatable words
+	    String[] removes = new String[] {"Versand"};
+        for (String remove : removes) {
+             locationColumnValue = locationColumnValue.replace(remove, "");          
+        }
+	    
+	    // Determine the first delimiter
+	    String[] delimiterCandidates = new String[] {"/", "|", ",", ";", "oder", "bzw.", "bzw"};
+	    for (String delimiterCandidate : delimiterCandidates) {
+	        if (delimiter  == null && (locationNames.contains(delimiterCandidate))) {
+	            delimiter = delimiterCandidate;
+	        }
+	    }
+	    
+	    // tokenize and trimm the several location names
+	    if (delimiter != null) {
+    	    StringTokenizer tokenizer = new StringTokenizer(locationColumnValue, delimiter);
+    	    while (tokenizer.hasMoreElements()) {
+                 String locationName = tokenizer.nextToken();
+                 locationNames.add(locationName.trim());
+            }
+        } else {
+            locationNames.add(locationColumnValue.trim());
+        }
+
+	    
+	    return locationNames;
 	}
 
 	private Object getPreis(TagNode row) throws XPatherException {
@@ -270,8 +319,8 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 		return columnNode;
 	}
 
-	public void setLocationStore(LocationStore locationStore) {
-		this.locationStore = locationStore;
+	public void setLocationService(LocationService locationService) {
+		this.locationService = locationService;
 	}
 
 }

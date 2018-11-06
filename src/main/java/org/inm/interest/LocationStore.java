@@ -19,14 +19,4 @@ public class LocationStore extends AbstractStore<Location> {
 		return Location.class;
 	}
 	
-    public Location findByIdField(String name) {
-    	Iterator<Location> found = findByField("name",name).iterator();
-    	if (!found.hasNext()) {
-    		Location location = new OpenRouteService().getLocation(name);
-    		this.insert(location);
-    		found = findByField("name",name).iterator();
-    	}
-    	return found.next();
-	}
-
 }

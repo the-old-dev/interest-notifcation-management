@@ -3,7 +3,13 @@ package org.inm.interest;
 import org.inm.store.AbstractStore;
 import org.inm.store.AbstractStoreTestCase;
 import org.junit.Test;
+
+import org.junit.Assert;
+
 import com.cedarsoftware.util.DeepEquals;
+
+import java.util.List;
+
 public class LocationStoreTestCase extends AbstractStoreTestCase<Location> {
 
 	@Override
@@ -22,9 +28,11 @@ public class LocationStoreTestCase extends AbstractStoreTestCase<Location> {
 		Location location = createEntity();
 		
 		this.store.insert(location);
-		Location found = ((LocationStore)this.store).findByIdField(location.getName());
+		List<Location> found = ((LocationStore)this.store).findByField("name", location.getName());
 		
-		DeepEquals.deepEquals(location, found);
+		Assert.assertNotNull(found);
+		Assert.assertEquals(1, found.size());
+		Assert.assertTrue(DeepEquals.deepEquals(location, found.get(0)));
 		
 	}
 

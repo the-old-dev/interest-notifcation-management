@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import org.htmlcleaner.TagNode;
 import org.inm.interest.Interest;
 import org.inm.interest.InterestStore;
-import org.inm.interest.LocationStore;
+import org.inm.interest.LocationService;
 import org.inm.util.NullCheck;
 
 public abstract class AbstractChangeDetector implements Runnable {
@@ -16,7 +16,7 @@ public abstract class AbstractChangeDetector implements Runnable {
 	protected AbstractReader reader = null;
 	protected AbstractTransformator transformator = null;
 	protected InterestStore store = null;
-	protected LocationStore locationStore = null;
+	protected LocationService locationService = null;
 	private Subscribable subscribable;
 
 	protected Logger LOGGER = null;
@@ -37,15 +37,16 @@ public abstract class AbstractChangeDetector implements Runnable {
 		this.transformator = transformator;
 	}
 
-	public void initialize(InterestStore store, LocationStore locationStore, Website website, Subscribable subscribable) {
+	public void initialize(InterestStore store, LocationService locationService, Website website, Subscribable subscribable) {
 
 		NullCheck.NotNull("store", store);
-		NullCheck.NotNull("locationStore", locationStore);
+		NullCheck.NotNull("locationService", locationService);
 		NullCheck.NotNull("website", website);
 		NullCheck.NotNull("subscribable", subscribable);
 
 		this.store = store;
-		this.locationStore = locationStore;
+		
+		this.locationService = locationService;
 		this.website = website;
 		this.subscribable = subscribable;
 

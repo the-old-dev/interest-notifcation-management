@@ -2,6 +2,8 @@ package org.inm.server;
 
 import org.inm.interest.InterestStore;
 import org.inm.interest.LocationStore;
+import org.inm.interest.LocationService;
+import org.inm.interest.OpenRouteService;
 import org.inm.subscription.SubscriberStore;
 import org.inm.website.ChangeDetectionExecutor;
 import org.inm.website.WebsiteStore;
@@ -37,6 +39,11 @@ public class ApplicationContextConfiguration {
         @Bean
         public LocationStore locationStore() {
         	return new LocationStore();
+        }
+        
+        @Bean
+        public LocationService locationService() {
+        	return new OpenRouteService();
         }
 
 }

@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.inm.interest.InterestStore;
-import org.inm.interest.LocationStore;
+import org.inm.interest.LocationService;
 import org.inm.website.ChangeDetectionExecutor;
 import org.inm.website.WebsiteStore;
 import org.slf4j.Logger;
@@ -30,11 +30,11 @@ public class ScheduledTasks {
 	InterestStore interestStore;
 
 	@Autowired
-	LocationStore locationStore;
+	LocationService locationService;
 
 	@Scheduled(fixedDelay = 5000000)
 	public void reportCurrentTime() {
 		log.info("The time is now {}", dateFormat.format(new Date()));
-		changeDetectionExecutor.execute(websiteStore, interestStore, locationStore);
+		changeDetectionExecutor.execute(websiteStore, interestStore, locationService);
 	}
 }
