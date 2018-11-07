@@ -12,7 +12,7 @@ import org.inm.util.EmtyCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -31,15 +31,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class OpenRouteService implements LocationService {
 
 	private static final Logger log = LoggerFactory.getLogger(OpenRouteService.class);
+	
+	private final Object lock = new Object();
+	
+	private long lastCalled = 0l;
 
-	private String API_KEY = null;
+    @Value("${OPEN_ROUTE_SERVICE_API_KEY}")
+    private String API_KEY;
 
 	@Autowired
 	private LocationStore locationStore;
-
-	public OpenRouteService() {
-		API_KEY = System.getProperty("OPEN_ROUTE_SERVICE_API_KEY");
-	}
 
 	public Location getLocation(String name) {
 
@@ -58,7 +59,8 @@ public class OpenRouteService implements LocationService {
 				}
 				found = this.locationStore.findByField("name", name).iterator();
 			} else {
-				log.error("Can not search for No API KEY provided");
+				log.error("Can not search for name:=" + name + " No API KEY provided");
+				return null;
 			}
 		}
 
@@ -109,20 +111,55 @@ public class OpenRouteService implements LocationService {
 	}
 
 	/**
+	 * This call is threadsafe
+	 * 
 	 * @param cityName,
 	 *            must not contain invalid request parameter characters like " "
 	 * @return
 	 */
-	Navigateable geocodeSearch(String cityName) throws JsonParseException, JsonMappingException, IOException {
-		String urlString = "http://api.openrouteservice.org/geocode/search?&api_key=" + API_KEY + "&text="
-				+ URLEncoder.encode(cityName) + "&boundary.country=DE&size=1";
-		URL url = new URL(urlString);
+	Navigateable geocodeSearch(String cityName) throws JsonParseException, JsonMappingException, IOException, InterruptedException {
+	    
+	    synchronized (lock) {
+	          
+            throttle();
+    	   
+    	   	log.info("Calling Open Route Service Geocode Search for:="+cityName);
+    	   
+    		String urlString = "http://api.openrouteservice.org/geocode/search?&api_key=" + API_KEY + "&text="
+    				+ URLEncoder.encode(cityName) + "&boundary.country=DE&size=1";
+    		URL url = new URL(urlString);
+    
+    		ObjectMapper objectMapper = new ObjectMapper();
+    		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    		Object collection = objectMapper.readValue(url.openStream(), new TypeReference<Map<String, Object>>() {
+    		});
+    		return new Navigateable(collection);
+    		
+	   }
 
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		Object collection = objectMapper.readValue(url.openStream(), new TypeReference<Map<String, Object>>() {
-		});
-		return new Navigateable(collection);
+	}
+	
+    /**
+     * This webservice has a usage plan with a rate limitation:
+     * https://openrouteservice.org/plans/
+     * 
+     * Free Plan:
+     * - 2.500 Requests per day
+     * - up to 40 Requests per minute
+     * 
+     * This method das a throtteling to 1 request per second.
+     */	
+	private void throttle() throws InterruptedException {
+	    	
+    	long current = System.currentTimeMillis();
+        long timeDelta = current - this.lastCalled;
+        
+        if (timeDelta < 2000) {
+            Thread.sleep(2000 - timeDelta);	            
+        }
+        
+        this.lastCalled = System.currentTimeMillis();
+	        
 	}
 
 }

@@ -1,0 +1,3 @@
+How to define System.env entries for testing in maven?
+
+mvn clean install -f ${current.project.path} -DargLine="-D<env-key>=<env-value>""

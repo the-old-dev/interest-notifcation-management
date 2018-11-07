@@ -2,6 +2,8 @@ package org.inm.server;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
+import java.util.Properties;
 
 import org.inm.interest.InterestStore;
 import org.inm.interest.LocationService;
@@ -32,9 +34,12 @@ public class ScheduledTasks {
 	@Autowired
 	LocationService locationService;
 
-	@Scheduled(fixedDelay = 5000000)
+	@Scheduled( fixedDelay = 5000000)
 	public void reportCurrentTime() {
-		log.info("The time is now {}", dateFormat.format(new Date()));
+	     
+		log.info("Now {} running scheduled tasks ...", dateFormat.format(new Date()));
 		changeDetectionExecutor.execute(websiteStore, interestStore, locationService);
+		
 	}
+	
 }

@@ -43,8 +43,11 @@ public class Search<T extends Serializable> {
 
 	public Iterable<T> find(String idFieldName, Object idValue) {
 		ObjectFilter filter = ObjectFilters.eq(idFieldName, idValue);
-		
-		return this.repository.find(filter);
+		return find(filter);
+	}
+	
+	public Iterable<T> find(ObjectFilter filter) {
+	    return this.repository.find(filter);
 	}
 	
 	public T find(NitriteId id) {

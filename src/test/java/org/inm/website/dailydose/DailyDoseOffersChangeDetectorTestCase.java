@@ -26,7 +26,7 @@ public class DailyDoseOffersChangeDetectorTestCase {
 
 	@ComponentScan("org.inm.interest")
 	@TestConfiguration
-	static class TestContextConfiguration extends ApplicationContextConfiguration {
+	static class TestContextConfiguration {
 		
 		@Bean
 		public InterestStore interestStore() {

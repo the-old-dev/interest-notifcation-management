@@ -15,7 +15,7 @@ public class OpenRouteServiceTestCase {
 
 	@ComponentScan("org.inm.interest")
 	@TestConfiguration
-	static class TestContextConfiguration extends ApplicationContextConfiguration {
+	static class TestContextConfiguration {
 
 		@Bean
 		public LocationStore locationStore() {
