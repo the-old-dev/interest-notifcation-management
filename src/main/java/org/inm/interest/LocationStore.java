@@ -1,5 +1,6 @@
 package org.inm.interest;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.dizitart.no2.objects.ObjectFilter;
@@ -23,13 +24,23 @@ public class LocationStore extends AbstractStore<Location> {
 	protected Class<Location> getStoreClass() {
 		return Location.class;
 	}
-	
-	public List<Location> findUnlocated() {
-	    
-	    ObjectFilter filter = 
-	       ObjectFilters.or(ObjectFilters.eq("latitude", 0.0), ObjectFilters.eq("longitude", 0.0));
-	    
-	    return Iterables.toList(this.getSearch(null).find(filter));
+
+	public Location findByIdField(String name) {
+		Iterator<Location> iterator = findByField("name", name).iterator();
+		if (iterator.hasNext()) {
+			return iterator.next();
+		} else {
+			return null;
+		}
 	}
-	
+
+	public List<Location> findUnlocated() {
+
+		ObjectFilter filter1 = ObjectFilters.or(ObjectFilters.eq("latitude", null),
+				ObjectFilters.eq("longitude", null));
+		ObjectFilter filter2 = ObjectFilters.or(ObjectFilters.eq("latitude", 0.0), ObjectFilters.eq("longitude", 0.0));
+
+		return Iterables.toList(this.getSearch(null).find(ObjectFilters.or(filter1, filter2)));
+	}
+
 }
