@@ -3,6 +3,7 @@ package org.inm.interest;
 import java.io.Serializable;
 
 import org.dizitart.no2.objects.Id;
+import org.inm.util.EmtyCheck;
 
 public class Location implements Serializable {
 
@@ -55,6 +56,13 @@ public class Location implements Serializable {
 		return distance(this.latitude, this.longitude, location.latitude, location.longitude, "K");
 	}
 	
+	public boolean isUnlocated() {
+	    	return 
+	    	  EmtyCheck.isNullOrZero(this.getLatitude()) 
+	    	      || EmtyCheck.isNullOrZero(this.getLongitude())
+	    	      || EmtyCheck.isEmpty(this.getName());
+	}
+
 	public String toString() {
 	    return "Location { name:="+getName()+", longitude:="+getLongitude()+", latitude:="+getLatitude()+" }";
 	}

@@ -19,4 +19,13 @@ public abstract class EmtyCheck {
 		return false;
 	}
 
+    public static  boolean isNullOrZero(Double value) {
+
+		if (value == null) {
+			return true;
+		}
+
+		return value.equals(0.0);
+
+	}
 }

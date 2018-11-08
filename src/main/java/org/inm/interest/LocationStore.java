@@ -35,12 +35,18 @@ public class LocationStore extends AbstractStore<Location> {
 	}
 
 	public List<Location> findUnlocated() {
+		return Iterables.toList(this.getSearch(null).find(createUnlocatedFilter()));
+	}
+	
+	private ObjectFilter createUnlocatedFilter() {
+	    
+	    ObjectFilter filter1 
+	      = ObjectFilters.or(ObjectFilters.eq("latitude", null), ObjectFilters.eq("longitude", null));
+		
+		ObjectFilter filter2 
+		  = ObjectFilters.or(ObjectFilters.eq("latitude", 0.0), ObjectFilters.eq("longitude", 0.0));
 
-		ObjectFilter filter1 = ObjectFilters.or(ObjectFilters.eq("latitude", null),
-				ObjectFilters.eq("longitude", null));
-		ObjectFilter filter2 = ObjectFilters.or(ObjectFilters.eq("latitude", 0.0), ObjectFilters.eq("longitude", 0.0));
-
-		return Iterables.toList(this.getSearch(null).find(ObjectFilters.or(filter1, filter2)));
+        return ObjectFilters.or(filter1, filter2);
 	}
 
 }

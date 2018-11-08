@@ -1,4 +1,4 @@
-package org.inm.interest;
+package org.inm.interest.ors;
 
 import java.util.List;
 import java.util.Map;
