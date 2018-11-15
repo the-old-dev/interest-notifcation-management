@@ -1,33 +1,27 @@
 package org.inm.interest.ors;
 
 import org.inm.interest.Location;
-import org.inm.interest.LocationService;
 import org.inm.interest.LocationStore;
 import org.inm.util.NullCheck;
 
-class CachedLocationService implements LocationService {
+class CachedGeocodeSearch extends LinkedGeocodeSearch {
     
-    private LocationService adaptee;
     private LocationStore cache;
     
-    CachedLocationService(LocationService adaptee, LocationStore cache) {
-        
-        NullCheck.NotNull("adaptee", adaptee);
+    CachedGeocodeSearch(LocationStore cache) {
         NullCheck.NotNull("cache", cache);
-        
-        this.adaptee = adaptee;
-        this.cache = cache;
-        
+        this.cache = cache;     
     }
     
-    public Location getLocation(String name) {
+    public Location getLocation(String name, String countryCode) {
         
         Location location = cache.findByIdField(name);
         if (location != null) {
             return location;
         }
         
-        location = adaptee.getLocation(name);
+        location = getNextService().getLocation(name, countryCode);
+        
         // Only cache located ones while reading
         if(location != null && !location.isUnlocated()) {
             cache(location);

@@ -11,8 +11,10 @@ public abstract class AbstractStoreBase<T extends Serializable> {
 	private Nitrite nitrite;
 	private Write<T> write;
 	private Search<T> search;
+	private boolean inMemory;
 
 	public AbstractStoreBase(boolean inMemory) {
+		this.inMemory = inMemory;
 		Configuration configuration = new Configuration(this);
 		this.nitrite = configuration.initialize(inMemory);
 		ObjectRepository<T> repository = nitrite.getRepository(getStoreClass());
@@ -27,6 +29,10 @@ public abstract class AbstractStoreBase<T extends Serializable> {
 	public void register(AbstractChangeListener<T> listener) {
 		listener.initialize(this.nitrite.getContext().getNitriteMapper(), getStoreClass());
 		this.write.register(listener);
+	}
+
+	public boolean isInMemory() {
+		return inMemory;
 	}
 
 	protected final Write<T> getWrite(T entity) {

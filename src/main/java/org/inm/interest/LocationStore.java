@@ -3,6 +3,8 @@ package org.inm.interest;
 import java.util.Iterator;
 import java.util.List;
 
+import org.dizitart.no2.FindOptions;
+import org.dizitart.no2.SortOrder;
 import org.dizitart.no2.objects.ObjectFilter;
 import org.dizitart.no2.objects.filters.ObjectFilters;
 import org.dizitart.no2.util.Iterables;
@@ -35,7 +37,7 @@ public class LocationStore extends AbstractStore<Location> {
 	}
 
 	public List<Location> findUnlocated() {
-		return Iterables.toList(this.getSearch(null).find(createUnlocatedFilter()));
+		return Iterables.toList(this.getSearch(null).find(createUnlocatedFilter(),FindOptions.sort("name", SortOrder.Ascending)));
 	}
 	
 	private ObjectFilter createUnlocatedFilter() {

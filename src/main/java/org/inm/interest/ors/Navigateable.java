@@ -11,25 +11,25 @@ class Navigateable {
 		this.collection = collection;
 	}
 
-    /**
-     * Returns an object in any case.
-     */
+	/**
+	 * Returns an object in any case.
+	 */
 	@SuppressWarnings("unchecked")
 	Navigateable navigate(String key) {
 
-        if (this.collection == null) {
-            return new Navigateable(null);
-        }
+		if (this.collection == null) {
+			return new Navigateable(null);
+		}
 
 		Object value = null;
 
 		if (collection instanceof Map) {
 			value = ((Map<String, ?>) collection).get(key);
 		} else if (collection instanceof List) {
-		    int index = Integer.parseInt(key);
-		    if (index < ((List<?>) collection).size()) {
-			 value = ((List<?>) collection).get(index);
-		    }
+			int index = Integer.parseInt(key);
+			if (index < ((List<?>) collection).size()) {
+				value = ((List<?>) collection).get(index);
+			}
 		}
 
 		return new Navigateable(value);
@@ -37,7 +37,7 @@ class Navigateable {
 	}
 
 	@SuppressWarnings("unchecked")
-	 <T> T getCollection() {
+	<T> T getCollection() {
 		return (T) collection;
 	}
 

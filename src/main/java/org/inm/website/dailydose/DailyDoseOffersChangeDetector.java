@@ -24,9 +24,12 @@ public class DailyDoseOffersChangeDetector extends AbstractChangeDetector {
 		((DailyDoseOffersTransformator) super.transformator).setLocationService(locationService);
 	}
 
+	/**
+	 * Only update already existing ones for two days.
+	 */
 	protected boolean stop(Interest readed, Interest existing) {
-		long age = readed.getLastUpdated() - existing.getLastUpdated();
-		return age > (3 * A_DAY);
+		long age = readed.getLastUpdated() - (long)existing.getDetails().get("date");
+		return age > (2 * A_DAY);
 	}
 
 }

@@ -17,31 +17,45 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class OpenRouteServiceLocationService implements LocationService {
+public class OpenRouteServiceGeocodeSearch implements LocationService {
 
 	@Value("${OPEN_ROUTE_SERVICE_API_KEY}")
 	private String API_KEY;
 
 	@Autowired
 	private LocationStore locationStore;
-	
-	private LocationService internalServiceChain;
-	
+
+	private IntelligentGeocodeSearch internalServiceChain;
+
 	@PostConstruct
-    void initialize() {
-        this.internalServiceChain = 
-            new IntelligentLocationService(
-                new LocalizedLocationService(
-                    new CachedLocationService(
-                        new RemoteLocationService(API_KEY), 
-                        locationStore
-                    )
-                ),
-                locationStore
-            );        
-    }
+	void initialize() {
+
+		// check if the api key is present
+		if (!hasApiKey()) {
+			return;
+		}
+
+		// build the chain
+		this.internalServiceChain = new IntelligentGeocodeSearch(locationStore);
+		internalServiceChain.append(new BugfixingGeocodeSearch()).append(new LocalizedGeocodeSearch())
+				.append(new CachedGeocodeSearch(locationStore)).append(new RemoteGeocodeSearch(API_KEY));
+
+	}
+
+	private boolean hasApiKey() {
+		if (API_KEY == null || "".equals(API_KEY) || "${OPEN_ROUTE_SERVICE_API_KEY}".equals(API_KEY)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	public Location getLocation(String name) {
+
+		// check if the api key is present
+		if (!hasApiKey()) {
+			return null;
+		}
 
 		// return empty
 		if (EmtyCheck.isEmpty(name)) {

@@ -8,7 +8,7 @@ package org.inm.interest.ors;
  * 
  * This class does a throtteling to 1 request per second.
  */
-class Throttle {
+class RemoteGeocodeSearchThrottle {
     
     private long lastCalled = 0l;    
 

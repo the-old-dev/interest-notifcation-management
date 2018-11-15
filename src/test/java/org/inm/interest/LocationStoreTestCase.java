@@ -43,7 +43,7 @@ public class LocationStoreTestCase extends AbstractStoreTestCase<Location> {
 	   this.store.insert(new Location("a", 10.0, 20.0));
 	   this.store.insert(new Location("b", 0.0, 0.0));   
 	   this.store.insert(new Location("c", 0.00, 0.00));   
-	   this.store.insert(new Location("d", 0.000, 0.000));   
+	   this.store.insert(new Location("d", null, null));   
 	   this.store.insert(new Location("e", 20.0, 20.0));
 	   
 	   // execute search
@@ -54,4 +54,5 @@ public class LocationStoreTestCase extends AbstractStoreTestCase<Location> {
 	   Assert.assertEquals(3, found.size());
 	   
     }
+	
 }
