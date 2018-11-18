@@ -34,7 +34,11 @@ class RemoteGeocodeSearch extends LinkedGeocodeSearch {
 	 *            must not contain invalid request parameter characters like " "
 	 * @return
 	 */
-	public Location getLocation(String cityName, String countryCode) {
+	public Location getLocation(String name, String countryCode) {
+		
+		if (EmtyCheck.isEmpty(name)) {
+			return null;
+		}
 
 		synchronized (lock) {
 
@@ -42,10 +46,10 @@ class RemoteGeocodeSearch extends LinkedGeocodeSearch {
 
 				lock.throttle();
 
-				log.debug("Calling Open Route Service Geocode Search for:=" + cityName);
+				log.debug("Calling Open Route Service Geocode Search for:=" + name);
 
 				String urlString = "http://api.openrouteservice.org/geocode/search?&api_key=" + apiKey + "&text="
-						+ URLEncoder.encode(cityName, "UTF-8") + "&size=1";
+						+ URLEncoder.encode(name, "UTF-8") + "&size=1";
 
 				if (!EmtyCheck.isEmpty(countryCode)) {
 					urlString = urlString + "&boundary.country=" + countryCode;
@@ -61,7 +65,7 @@ class RemoteGeocodeSearch extends LinkedGeocodeSearch {
 				return RemoteGeocodeSearchResponse.extractLocation(response);
 
 			} catch (Exception e) {
-				log.error("Error occured during remote service call for name:=" + cityName, e);
+				log.error("Error occured during remote service call for name:=" + name, e);
 				return null;
 			}
 

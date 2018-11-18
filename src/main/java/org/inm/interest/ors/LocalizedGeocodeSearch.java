@@ -1,16 +1,11 @@
 package org.inm.interest.ors;
 
 import org.inm.interest.Location;
-import org.inm.util.EmtyCheck;
 
 class LocalizedGeocodeSearch extends LinkedGeocodeSearch {
 
 	@Override
 	public Location getLocation(String name, String countryCode) {
-
-		if (EmtyCheck.isEmpty(name)) {
-			return null;
-		}
 
 		Location location = getNextService().getLocation(name, countryCode);
 		if (location == null) {

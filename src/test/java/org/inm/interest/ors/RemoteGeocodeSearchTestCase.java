@@ -25,7 +25,7 @@ public class RemoteGeocodeSearchTestCase extends AbstractGeocodeSearchTestCase {
 	public void testRemoteLocationService() throws Exception {
 		
 		if (!isAPI_KEYPresent()) {
-			log.info("Test is not run, because No API KEY ist provided!");
+			log.info("++++ Test is not run, because No API KEY ist provided! ++++");
 			return;
 		}
 	

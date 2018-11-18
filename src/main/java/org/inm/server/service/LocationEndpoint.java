@@ -20,7 +20,8 @@ public class LocationEndpoint {
 	}
 
 	/**
-	 * Reacts to URLs like: http://localhost:8080/api/location/?detectedOn.subCategory="Foils"
+	 * Find all unlocated locations.
+	 * 	
 	 * @param requestParameter
 	 * @return
 	 */

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.inm.interest.InterestStore;
 import org.inm.interest.LocationService;
+import org.inm.util.NullCheck;
 import org.inm.website.ChangeDetectionExecutor;
 import org.inm.website.WebsiteStore;
 import org.slf4j.Logger;
@@ -32,12 +33,18 @@ public class ScheduledTasks {
 	@Autowired
 	LocationService locationService;
 
-	@Scheduled( fixedDelay = 5000000)
+	// Run once a day
+	@Scheduled(fixedDelay = 86400000)
 	public void runTasks() {
-	     
+
 		log.info("Now {} running scheduled tasks ...", dateFormat.format(new Date()));
+
+		NullCheck.NotNull("websiteStore", websiteStore);
+		NullCheck.NotNull("interestStore", interestStore);
+		NullCheck.NotNull("locationService", locationService);
+
 		changeDetectionExecutor.execute(websiteStore, interestStore, locationService);
-		
+
 	}
-	
+
 }

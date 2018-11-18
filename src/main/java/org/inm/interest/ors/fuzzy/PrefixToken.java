@@ -1,13 +1,13 @@
 package org.inm.interest.ors.fuzzy;
 
-public class DelimiterToken extends SpecialWordToken {
+public class PrefixToken extends SpecialWordToken {
 
-	static TokenList All = new TokenList(new DelimiterToken(" ", "-") );
+	static TokenList All = new TokenList(new PrefixToken("St.", "St", "Sankt"));
 
-	public DelimiterToken(String... fuzzies) {
+	public PrefixToken(String... fuzzies) {
 		super(fuzzies);
 	}
-	
+
 	protected boolean testAcceptance(String phrase, String fuzzy) {
 		return testStartsWith(phrase, fuzzy);
 	}

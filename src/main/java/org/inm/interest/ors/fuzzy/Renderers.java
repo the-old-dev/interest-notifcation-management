@@ -1,5 +1,6 @@
 package org.inm.interest.ors.fuzzy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 abstract class Renderers {
@@ -8,15 +9,24 @@ abstract class Renderers {
 	private static StrictlyDelimitingRenderStrategy strategy = new StrictlyDelimitingRenderStrategy();
 	private static Renderer renderer = new Renderer();
 
-	static SearchPhrase renderWithStrictDelimiting(List<Token> tokenList) {
+	static List<SearchPhrase> renderAllWithStrictDelimiting(List<List<Token>> tokenChains) {
+
 		synchronized (lock) {
-			strategy.runStrategy(tokenList);
-			return render(tokenList);
+
+			List<SearchPhrase> phrases = new ArrayList<SearchPhrase>();
+
+			for (List<Token> tokenChain : tokenChains) {
+				phrases.add(renderWithStrictDelimiting(tokenChain));
+			}
+
+			return phrases;
 		}
 	}
 
-	private static SearchPhrase render(List<Token> tokenList) {
-		return renderer.render(tokenList) ;
+	static SearchPhrase renderWithStrictDelimiting(List<Token> tokenChain) {
+
+		strategy.runStrategy(tokenChain);
+		return renderer.render(tokenChain);
 	}
 
 }

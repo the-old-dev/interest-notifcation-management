@@ -1,7 +1,9 @@
 package org.inm.interest;
 
+import java.util.List;
+
 public interface LocationService {
     
-    public Location getLocation(String name);
+    public List<Location> getLocations(String name);
     
 }

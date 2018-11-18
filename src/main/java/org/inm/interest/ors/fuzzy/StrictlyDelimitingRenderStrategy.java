@@ -29,7 +29,7 @@ class StrictlyDelimitingRenderStrategy extends RenderStrategy {
 			if (needsDelimiter && !hasDelimiter) {
 
 				// insert delimiter
-				tokenList.add(i + 1, DelimiterToken.All[0]);
+				tokenList.add(i + 1, DelimiterToken.All.get(0));
 
 				// enlarge the collection counting
 				n = n + 1;

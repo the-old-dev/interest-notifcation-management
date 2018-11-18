@@ -5,20 +5,31 @@ public class WordToken extends Token {
 	private String[] value;
 
 	public WordToken(CharacterToken charToken) {
-		this.value = new String[] { charToken.getValue() };
+		this.value = new String[] {
+				charToken.getValue()
+		};
+	}
+
+	public WordToken(String phrase) {
+		this.value = new String[] {
+				phrase
+		};
 	}
 
 	void append(CharacterToken charToken) {
-		this.value[0] =  this.value[0] + charToken.getValue();
+
+		this.value[0] = this.value[0] + charToken.getValue();
 	}
 
 	@Override
 	protected Token newToken() {
+
 		return null;
 	}
 
 	@Override
 	protected String[] getfuzzies() {
+
 		return value;
 	}
 

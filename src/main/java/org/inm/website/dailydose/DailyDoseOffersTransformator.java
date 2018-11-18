@@ -17,6 +17,7 @@ import org.inm.interest.Interest;
 import org.inm.interest.Location;
 import org.inm.interest.LocationService;
 import org.inm.util.EmtyCheck;
+import org.inm.util.NullCheck;
 import org.inm.website.AbstractTransformator;
 
 class DailyDoseOffersTransformator extends AbstractTransformator {
@@ -169,6 +170,7 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 	}
 
 	private long getDatum(TagNode row) throws XPatherException {
+
 		String datumString = getColumnText(row, 6);
 		try {
 			return DateFormat.getDateInstance().parse(datumString).getTime();
@@ -188,8 +190,7 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 
 		// Get the locations in the column
 		for (String locationName : extractLocationNames(locationColumnValue)) {
-			Location location = this.locationService.getLocation(locationName);
-			if (location != null) {
+			for (Location location : this.locationService.getLocations(locationName)) {
 				locations.add(location);
 			}
 		}
@@ -204,13 +205,17 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 		List<String> locationNames = new ArrayList<String>();
 
 		// Remove unlocatable words
-		String[] removes = new String[] { "Versand" };
+		String[] removes = new String[] {
+				"Versand"
+		};
 		for (String remove : removes) {
 			locationColumnValue = locationColumnValue.replace(remove, "");
 		}
 
 		// Change delimiter candidates to the default delimiter
-		String[] delimiterCandidates = new String[] { "\\", "/", "|", ",", ";", "oder", "bzw.", "bzw" };
+		String[] delimiterCandidates = new String[] {
+				"\\", "/", "|", ",", ";", "oder", "bzw.", "bzw"
+		};
 		for (String delimiterCandidate : delimiterCandidates) {
 			locationColumnValue = locationColumnValue.replace(delimiterCandidate, DEFAULT_DELIMITER);
 		}
@@ -230,6 +235,7 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 	}
 
 	private Object getPreis(TagNode row) throws XPatherException {
+
 		String columnValue = getColumnText(row, 4);
 
 		Double preis = extractPreis(columnValue);
@@ -319,6 +325,8 @@ class DailyDoseOffersTransformator extends AbstractTransformator {
 	}
 
 	public void setLocationService(LocationService locationService) {
+
+		NullCheck.NotNull("locationService", locationService);
 		this.locationService = locationService;
 	}
 

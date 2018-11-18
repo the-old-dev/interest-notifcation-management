@@ -1,5 +1,8 @@
 package org.inm.interest.ors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.inm.interest.Location;
@@ -37,8 +40,12 @@ public class OpenRouteServiceGeocodeSearch implements LocationService {
 
 		// build the chain
 		this.internalServiceChain = new IntelligentGeocodeSearch(locationStore);
-		internalServiceChain.append(new BugfixingGeocodeSearch()).append(new LocalizedGeocodeSearch())
-				.append(new CachedGeocodeSearch(locationStore)).append(new RemoteGeocodeSearch(API_KEY));
+		
+		internalServiceChain.append(new BugfixingGeocodeSearch())
+			.append(new LocalizedGeocodeSearch())
+				.append(new CachedGeocodeSearch(locationStore))
+					.append(new CountriedGeocodeSearch())
+						.append(new RemoteGeocodeSearch(API_KEY));
 
 	}
 
@@ -50,19 +57,19 @@ public class OpenRouteServiceGeocodeSearch implements LocationService {
 		}
 	}
 
-	public Location getLocation(String name) {
+	public List<Location> getLocations(String name) {
 
 		// check if the api key is present
 		if (!hasApiKey()) {
-			return null;
+			return new ArrayList<Location>();
 		}
 
 		// return empty
 		if (EmtyCheck.isEmpty(name)) {
-			return null;
+			return new ArrayList<Location>();
 		}
 
-		return this.internalServiceChain.getLocation(name);
+		return this.internalServiceChain.getLocations(name);
 	}
 
 }

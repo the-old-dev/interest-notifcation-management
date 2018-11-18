@@ -3,57 +3,57 @@ package org.inm.interest.ors.fuzzy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.inm.util.EmtyCheck;
+
 /**
  * The parsing is done in three phases:
  * 
- * 1) Create a token list with the elementary elements (SpecialWord, Delimiter, Character)
+ * 1) Create a token list with the elementary elements (Separator, Delimiter, Character)
  * 
  * 2) Build a new list and replace the CharacterTokens Sequence with the WordToken tokens
  * 
- * 3) Build a new list and replace Words which are countries with CountryTokens
+ * 3) Build a new list and replace Words which are countries with CountryTokens and special words with SpecialWord
+ * tokens
+ * 
+ * 4) Build new lists separated by the separator tokens.
  * 
  * @author user
  *
  */
 public class Parser {
 
-	private static final String CHARACTER_TOKEN = "CharacterToken";
-	private static final String WORD_TOKEN = "WordToken";
+	static abstract class TokenVisitor {
 
-	static List<Token> parse(String phrase) {
-		return parseThirdPhase(parseSecondPhase(parseFirstPhase(phrase)));
-	}
+		protected List<Token> newTokens;
 
-	/**
-	 * Build a new list and replace Words which are countries with CountryTokens.
-	 * 
-	 * @param parseSecondPhase
-	 * @return
-	 */
-	private static List<Token> parseThirdPhase(List<Token> parseSecondPhase) {
-
-		List<Token> thirdPhaseList = new ArrayList<Token>();
-
-		for (Token token : parseSecondPhase) {
-
-			switch (token.getClass().getSimpleName()) {
-
-			case WORD_TOKEN:
-				// add the token if it is not a CountryToken
-				if (parseForTokens(token.getfuzzies()[0], thirdPhaseList, CountryToken.All) == null) {
-					thirdPhaseList.add(token);
-				}
-				break;
-
-			default:
-				thirdPhaseList.add(token);
-				break;
-
-			}
-
+		TokenVisitor() {
+			this.newTokens = new ArrayList<Token>();
 		}
 
-		return thirdPhaseList;
+		void visit(Token token) {
+
+			newTokens.add(token);
+		}
+
+		void visit(CharacterToken token) {
+
+			visit((Token) token);
+		}
+
+		void visit(WordToken token) {
+
+			visit((Token) token);
+		}
+
+		void visit(SeparatorToken token) {
+
+			visit((Token) token);
+		}
+
+		public List<Token> getNewTokens() {
+
+			return newTokens;
+		}
 
 	}
 
@@ -63,37 +63,175 @@ public class Parser {
 	 * @param phrase
 	 * @return
 	 */
+	static class SecondPhaseVisitor extends TokenVisitor {
+
+		private WordToken word = null;
+
+		void visit(CharacterToken token) {
+
+			if (word == null) {
+				word = new WordToken((CharacterToken) token);
+				newTokens.add(word);
+			} else {
+				word.append((CharacterToken) token);
+			}
+		}
+
+		void visit(Token token) {
+
+			if (word != null) {
+				word = null;
+			}
+			super.visit(token);
+		}
+
+	}
+
+	/**
+	 * Build a new list and:
+	 * 
+	 * - replace Words which are countries with CountryTokens.
+	 * 
+	 * - remove unsuitable tokens
+	 * 
+	 * @param parseSecondPhase
+	 * @return
+	 */
+	static class ThirdPhaseVisitor extends TokenVisitor {
+
+		@Override
+		void visit(WordToken token) {
+
+			String wordPhrase = token.getfuzzies()[0];
+
+			// omit unsuitable tokens in the new list
+			if (UnsuitableToken.All.accept(wordPhrase, this.newTokens) != null) {
+				this.newTokens.remove(this.newTokens.size() - 1);
+				return;
+			}
+
+			// add the token if it is a CountryToken
+			if (CountryToken.All.accept(wordPhrase, this.newTokens) != null) {
+				return;
+			}
+
+			// add the token if it is a prefix Token
+			String restPhrase = PrefixToken.All.accept(wordPhrase, this.newTokens);
+			if (restPhrase != null) {
+				addAsWordToken(restPhrase);
+				return;
+			}
+
+			// add the token if it is a located at Token
+			restPhrase = LocatedAtToken.All.accept(wordPhrase, this.newTokens);
+			if (restPhrase != null) {
+				addAsWordToken(restPhrase);
+				return;
+			}
+
+			// It is now clear, this is a simple word: simply add it
+			this.newTokens.add(token);
+
+		}
+
+		protected void addAsWordToken(String restPhrase) {
+
+			// add the rest as word
+			if (!EmtyCheck.isEmpty(restPhrase)) {
+				this.newTokens.add(new WordToken(restPhrase));
+			}
+		}
+
+	}
+
+	/**
+	 * 4) Build new lists separated by the separator tokens.
+	 * 
+	 * @author user
+	 *
+	 */
+	static class FourthPhaseVisitor extends TokenVisitor {
+
+		private List<List<Token>> tokenChainList = new ArrayList<List<Token>>();
+
+		@Override
+		void visit(SeparatorToken token) {
+
+			addToChain();
+			this.newTokens = new ArrayList<Token>();
+		}
+
+		private void addToChain() {
+
+			if (this.newTokens.size() > 0) {
+				this.tokenChainList.add(this.newTokens);
+			}
+		}
+
+		public List<List<Token>> getTokenChainList() {
+
+			addToChain();
+			return tokenChainList;
+		}
+
+	}
+
+	private static final String CHARACTER_TOKEN = "CharacterToken";
+	private static final String WORD_TOKEN = "WordToken";
+	private static final String UNSUITABLE_TOKEN = "UnsuitableToken";
+	private static final String SEPARATOR_TOKEN = "SeparatorToken";
+
+	static List<List<Token>> parse(String phrase) {
+		return parseFourthPhase(parseThirdPhase(parseSecondPhase(parseFirstPhase(phrase))));
+	}
+
+	private static List<List<Token>> parseFourthPhase(List<Token> thirdPhase) {
+
+		return ((FourthPhaseVisitor) runVisitation(thirdPhase, new FourthPhaseVisitor())).getTokenChainList();
+	}
+
 	private static List<Token> parseSecondPhase(List<Token> firstPhaseList) {
 
-		List<Token> secondPhaseList = new ArrayList<Token>();
+		return runVisitation(firstPhaseList, new SecondPhaseVisitor()).getNewTokens();
+	}
 
-		WordToken word = null;
+	private static List<Token> parseThirdPhase(List<Token> secondPhaseList) {
 
-		for (Token token : firstPhaseList) {
+		return runVisitation(secondPhaseList, new ThirdPhaseVisitor()).getNewTokens();
+	}
+
+	private static TokenVisitor runVisitation(List<Token> tokens, TokenVisitor visitor) {
+
+		for (Token token : tokens) {
 
 			switch (token.getClass().getSimpleName()) {
 
-			case CHARACTER_TOKEN:
-				if (word == null) {
-					word = new WordToken((CharacterToken) token);
-					secondPhaseList.add(word);
-				} else {
-					word.append((CharacterToken) token);
-				}
-				break;
+				case WORD_TOKEN:
+					visitor.visit((WordToken) token);
+					break;
 
-			default:
-				if (word != null) {
-					word = null;
-				}
-				secondPhaseList.add(token);
-				break;
+				case CHARACTER_TOKEN:
+					visitor.visit((CharacterToken) token);
+					break;
+
+				case UNSUITABLE_TOKEN:
+					visitor.visit((UnsuitableToken) token);
+					break;
+
+				case SEPARATOR_TOKEN:
+					visitor.visit((SeparatorToken) token);
+					break;
+
+				default:
+					visitor.visit(token);
+					break;
 
 			}
 
 		}
 
-		return secondPhaseList;
+		return visitor;
+
 	}
 
 	/**
@@ -109,16 +247,17 @@ public class Parser {
 	 * @return
 	 */
 	private static List<Token> parseFirstPhase(String phrase) {
+
 		phrase = phrase.trim();
 
 		List<Token> tokensList = new ArrayList<Token>();
 
 		while ((phrase != null) && (!"".equals(phrase))) {
 
-			String restPhrase = parseForSpecialWord(phrase, tokensList);
+			String restPhrase = DelimiterToken.All.accept(phrase, tokensList);
 
 			if (restPhrase == null) {
-				restPhrase = parseForDelimiters(phrase, tokensList);
+				restPhrase = SeparatorToken.All.accept(phrase, tokensList);
 			}
 
 			if (restPhrase == null) {
@@ -130,35 +269,6 @@ public class Parser {
 		}
 
 		return tokensList;
-	}
-
-	static private String parseForSpecialWord(String phrase, List<Token> tokensList) {
-
-		// Special character must have an delimiter in front
-		int size = tokensList.size();
-		if (size > 0) {
-			if (!(tokensList.get(size - 1) instanceof DelimiterToken)) {
-				return null;
-			}
-		}
-
-		return parseForTokens(phrase, tokensList, SpecialWordToken.All);
-
-	}
-
-	static private String parseForDelimiters(String phrase, List<Token> tokensList) {
-		return parseForTokens(phrase, tokensList, DelimiterToken.All);
-	}
-
-	private static String parseForTokens(String phrase, List<Token> tokensList, Token[] tokens) {
-		for (Token token : tokens) {
-			String restPhrase = token.accept(phrase, tokensList);
-			if (restPhrase != null) {
-				return restPhrase;
-			}
-		}
-
-		return null;
 	}
 
 }

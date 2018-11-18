@@ -43,9 +43,11 @@ public abstract class AbstractGeocodeSearchTestCase {
 
 	@Before
 	public void check() {
+	
 		if (locationStore == null || !locationStore.isInMemory()) {
 			Assert.fail("Incorrect initialisation of the location store!");
 		}
+	
 	}
 
 	protected boolean isAPI_KEYPresent() {
