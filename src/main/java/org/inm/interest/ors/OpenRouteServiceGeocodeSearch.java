@@ -22,7 +22,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class OpenRouteServiceGeocodeSearch implements LocationService {
 
-	@Value("${OPEN_ROUTE_SERVICE_API_KEY}")
+    /**
+	 * The API Key required for the remote communication with the Open Route Service. The default is an empty String.
+	 */
+	@Value("${OPEN_ROUTE_SERVICE_API_KEY:}")
 	private String API_KEY;
 
 	@Autowired
